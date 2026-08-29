@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-paper text-ink antialiased; }
+  ::selection { @apply bg-ink text-paper; }
+  h1, h2, h3, h4 { @apply font-display tracking-tight; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow { @apply text-xs uppercase tracking-[0.2em] text-accent font-semibold; }
+  .container-page { @apply max-w-content mx-auto px-5 sm:px-8 lg:px-12; }
+  .btn { @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide transition-colors duration-200 rounded-sm disabled:opacity-50 disabled:pointer-events-none; }
+  .btn-primary { @apply bg-ink text-paper hover:bg-charcoal; }
+  .btn-accent { @apply bg-accent text-white hover:bg-accent/90; }
+  .btn-ghost { @apply border border-ink/20 text-ink hover:border-ink; }
+  .input { @apply w-full border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:border-ink transition-colors rounded-sm; }
+  .card-line { @apply border border-line; }
+}
