@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { Rating } from '@/components/ui/Rating';
 import { Badge } from '@/components/ui/Badge';
@@ -24,7 +24,7 @@ export interface ProductCardData {
   defaultVariantId?: string;
 }
 
-export function ProductCard({ product }: { product: ProductCardData }) {
+function ProductCardContent({ product }: { product: ProductCardData }) {
   const [hovered, setHovered] = useState(false);
   const { addItem } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -40,7 +40,8 @@ export function ProductCard({ product }: { product: ProductCardData }) {
             src={hovered && product.images[1] ? product.images[1].url : product.images[0].url}
             alt={product.title}
             fill
-            sizes="(max-width: 768px) 50vw, 25vw"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            placeholder="empty"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         )}
@@ -86,3 +87,6 @@ export function ProductCard({ product }: { product: ProductCardData }) {
     </div>
   );
 }
+
+// Memoize ProductCard to prevent re-renders when parent updates
+export const ProductCard = memo(ProductCardContent);

@@ -94,7 +94,7 @@ export function VariantSelector({ variants }: { variants: VariantLite[] }) {
       </div>
 
       {!selected ? (
-        <p className="text-sm text-accent">This combination isn't available.</p>
+        <p className="text-sm text-accent">This combination isn&apos;t available.</p>
       ) : outOfStock ? (
         <p className="text-sm text-accent">Out of stock in this combination.</p>
       ) : null}

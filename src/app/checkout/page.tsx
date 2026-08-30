@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useReducer, useCallback } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -13,21 +13,49 @@ declare global {
   interface Window { Razorpay: any }
 }
 
+interface FormState {
+  email: string;
+  phone: string;
+  name: string;
+  line1: string;
+  line2: string;
+  city: string;
+  state: string;
+  pincode: string;
+  payMethod: 'online' | 'cod';
+}
+
+type FormAction = {
+  type: keyof FormState;
+  payload: string;
+};
+
+const initialFormState: FormState = {
+  email: '',
+  phone: '',
+  name: '',
+  line1: '',
+  line2: '',
+  city: '',
+  state: '',
+  pincode: '',
+  payMethod: 'online',
+};
+
+function formReducer(state: FormState, action: FormAction): FormState {
+  return { ...state, [action.type]: action.payload };
+}
+
 export default function CheckoutPage() {
   const { items, summary, refresh } = useCart();
   const { data: session } = useSession();
   const router = useRouter();
   const { show } = useToast();
 
-  const [email, setEmail] = useState(session?.user?.email ?? '');
-  const [phone, setPhone] = useState('');
-  const [name, setName] = useState('');
-  const [line1, setLine1] = useState('');
-  const [line2, setLine2] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [pincode, setPincode] = useState('');
-  const [payMethod, setPayMethod] = useState<'online' | 'cod'>('online');
+  const [formState, dispatch] = useReducer(formReducer, {
+    ...initialFormState,
+    email: session?.user?.email ?? '',
+  });
   const [placing, setPlacing] = useState(false);
 
   if (items.length === 0) {
@@ -45,10 +73,18 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email,
-          phone,
-          address: { name, phone, line1, line2, city, state, pincode },
-          paymentMethod: payMethod,
+          email: formState.email,
+          phone: formState.phone,
+          address: { 
+            name: formState.name, 
+            phone: formState.phone, 
+            line1: formState.line1, 
+            line2: formState.line2, 
+            city: formState.city, 
+            state: formState.state, 
+            pincode: formState.pincode 
+          },
+          paymentMethod: formState.payMethod,
         }),
       });
       const data = await res.json();
@@ -77,7 +113,7 @@ export default function CheckoutPage() {
         name: 'POSTERraxx',
         description: `Order ${data.orderNumber}`,
         order_id: data.razorpayOrderId,
-        prefill: { email, contact: phone, name },
+        prefill: { email: formState.email, contact: formState.phone, name: formState.name },
         theme: { color: '#141414' },
         handler: async (response: any) => {
           const verifyRes = await fetch('/api/checkout/verify', {
@@ -107,36 +143,95 @@ export default function CheckoutPage() {
     <div className="container-page py-10 lg:py-14">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <p className="eyebrow">Checkout</p>
-      <h1 className="text-3xl lg:text-4xl mt-2 mb-10">Where's it going?</h1>
+      <h1 className="text-3xl lg:text-4xl mt-2 mb-10">Where&apos;s it going?</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
         <div>
           <h3 className="text-sm font-semibold mb-4">1. Contact</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            <input className="input" placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input className="input" placeholder="Phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+            <input 
+              className="input" 
+              placeholder="Email" 
+              type="email" 
+              value={formState.email} 
+              onChange={(e) => dispatch({ type: 'email', payload: e.target.value })} 
+              required 
+            />
+            <input 
+              className="input" 
+              placeholder="Phone" 
+              type="tel" 
+              value={formState.phone} 
+              onChange={(e) => dispatch({ type: 'phone', payload: e.target.value })} 
+              required 
+            />
           </div>
 
           <h3 className="text-sm font-semibold mb-4">2. Shipping address</h3>
           <div className="space-y-4 mb-8">
-            <input className="input" placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <input className="input" placeholder="Address line 1" value={line1} onChange={(e) => setLine1(e.target.value)} required />
-            <input className="input" placeholder="Apartment, suite (optional)" value={line2} onChange={(e) => setLine2(e.target.value)} />
+            <input 
+              className="input" 
+              placeholder="Full name" 
+              value={formState.name} 
+              onChange={(e) => dispatch({ type: 'name', payload: e.target.value })} 
+              required 
+            />
+            <input 
+              className="input" 
+              placeholder="Address line 1" 
+              value={formState.line1} 
+              onChange={(e) => dispatch({ type: 'line1', payload: e.target.value })} 
+              required 
+            />
+            <input 
+              className="input" 
+              placeholder="Apartment, suite (optional)" 
+              value={formState.line2} 
+              onChange={(e) => dispatch({ type: 'line2', payload: e.target.value })} 
+            />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <input className="input" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} required />
-              <input className="input" placeholder="State" value={state} onChange={(e) => setState(e.target.value)} required />
-              <input className="input" placeholder="Pincode" value={pincode} onChange={(e) => setPincode(e.target.value)} required />
+              <input 
+                className="input" 
+                placeholder="City" 
+                value={formState.city} 
+                onChange={(e) => dispatch({ type: 'city', payload: e.target.value })} 
+                required 
+              />
+              <input 
+                className="input" 
+                placeholder="State" 
+                value={formState.state} 
+                onChange={(e) => dispatch({ type: 'state', payload: e.target.value })} 
+                required 
+              />
+              <input 
+                className="input" 
+                placeholder="Pincode" 
+                value={formState.pincode} 
+                onChange={(e) => dispatch({ type: 'pincode', payload: e.target.value })} 
+                required 
+              />
             </div>
           </div>
 
           <h3 className="text-sm font-semibold mb-4">3. Payment method</h3>
           <div className="space-y-2">
-            <label className={`flex items-center gap-3 border rounded-sm px-4 py-3 text-sm cursor-pointer ${payMethod === 'online' ? 'border-ink' : 'border-line'}`}>
-              <input type="radio" name="pay" checked={payMethod === 'online'} onChange={() => setPayMethod('online')} />
+            <label className={`flex items-center gap-3 border rounded-sm px-4 py-3 text-sm cursor-pointer ${formState.payMethod === 'online' ? 'border-ink' : 'border-line'}`}>
+              <input 
+                type="radio" 
+                name="pay" 
+                checked={formState.payMethod === 'online'} 
+                onChange={() => dispatch({ type: 'payMethod', payload: 'online' })} 
+              />
               UPI / Card / Netbanking / Wallets (via Razorpay)
             </label>
-            <label className={`flex items-center gap-3 border rounded-sm px-4 py-3 text-sm cursor-pointer ${payMethod === 'cod' ? 'border-ink' : 'border-line'}`}>
-              <input type="radio" name="pay" checked={payMethod === 'cod'} onChange={() => setPayMethod('cod')} />
+            <label className={`flex items-center gap-3 border rounded-sm px-4 py-3 text-sm cursor-pointer ${formState.payMethod === 'cod' ? 'border-ink' : 'border-line'}`}>
+              <input 
+                type="radio" 
+                name="pay" 
+                checked={formState.payMethod === 'cod'} 
+                onChange={() => dispatch({ type: 'payMethod', payload: 'cod' })} 
+              />
               Cash on Delivery
             </label>
           </div>
@@ -161,10 +256,10 @@ export default function CheckoutPage() {
           </div>
           <button
             onClick={placeOrder}
-            disabled={placing || !email || !phone || !name || !line1 || !city || !state || !pincode}
+            disabled={placing || !formState.email || !formState.phone || !formState.name || !formState.line1 || !formState.city || !formState.state || !formState.pincode}
             className="btn btn-accent w-full mt-6"
           >
-            {placing ? 'Placing order...' : payMethod === 'cod' ? 'Place order (COD)' : 'Pay & Place Order'}
+            {placing ? 'Placing order...' : formState.payMethod === 'cod' ? 'Place order (COD)' : 'Pay & Place Order'}
           </button>
           <p className="text-xs text-ink/40 mt-3">Payments are processed securely via Razorpay. We never see or store your card details.</p>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Star, Loader2, CheckCircle2, MessageSquarePlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -22,7 +22,8 @@ export function ReviewForm({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Memoize handleSubmit to prevent re-creation on every render
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLoggedIn) return;
 
@@ -57,7 +58,7 @@ export function ReviewForm({
     } finally {
       setLoading(false);
     }
-  };
+  }, [isLoggedIn, productId, rating, title, body, router]);
 
   if (!isLoggedIn) {
     return (

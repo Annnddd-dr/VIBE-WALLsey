@@ -6,9 +6,82 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from './CartContext';
 import { formatINR } from '@/lib/utils';
+import { memo, useMemo } from 'react';
 
-export function CartDrawer() {
+// Memoized cart item row component
+const CartItemRow = memo(function CartItemRow({ 
+  item, 
+  loading,
+  onUpdate,
+  onRemove 
+}: any) {
+  return (
+    <div className="flex gap-3">
+      <div className="relative w-20 h-24 bg-line/40 shrink-0 overflow-hidden rounded-sm">
+        {item.variant.product.images[0] && (
+          <Image
+            src={item.variant.product.images[0].url}
+            alt={item.variant.product.title}
+            fill
+            loading="lazy"
+            className="object-cover"
+          />
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium truncate">{item.variant.product.title}</p>
+        <p className="text-xs text-ink/50 mt-0.5">
+          {item.variant.size} · {item.variant.material} · {item.variant.frame}
+        </p>
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center border border-line rounded-sm">
+            <button
+              className="p-1.5 disabled:opacity-30"
+              disabled={loading}
+              onClick={() => onUpdate(item.variantId, item.quantity - 1)}
+              aria-label="Decrease quantity"
+            >
+              <Minus size={12} />
+            </button>
+            <span className="px-2 text-sm">{item.quantity}</span>
+            <button
+              className="p-1.5 disabled:opacity-30"
+              disabled={loading}
+              onClick={() => onUpdate(item.variantId, item.quantity + 1)}
+              aria-label="Increase quantity"
+            >
+              <Plus size={12} />
+            </button>
+          </div>
+          <span className="text-sm font-medium">{formatINR(item.variant.price * item.quantity)}</span>
+        </div>
+      </div>
+      <button
+        onClick={() => onRemove(item.variantId)}
+        aria-label="Remove item"
+        className="p-1 h-fit text-ink/40 hover:text-accent"
+      >
+        <Trash2 size={15} />
+      </button>
+    </div>
+  );
+});
+
+function CartDrawerContent() {
   const { isOpen, closeCart, items, summary, updateItem, removeItem, loading } = useCart();
+
+  // Memoize cart items rendering to prevent re-renders
+  const cartItemsList = useMemo(() => {
+    return items.map((item) => (
+      <CartItemRow 
+        key={item.variantId} 
+        item={item}
+        loading={loading}
+        onUpdate={updateItem}
+        onRemove={removeItem}
+      />
+    ));
+  }, [items, loading, updateItem, removeItem]);
 
   return (
     <AnimatePresence>
@@ -47,55 +120,7 @@ export function CartDrawer() {
             ) : (
               <>
                 <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
-                  {items.map((item) => (
-                    <div key={item.variantId} className="flex gap-3">
-                      <div className="relative w-20 h-24 bg-line/40 shrink-0 overflow-hidden rounded-sm">
-                        {item.variant.product.images[0] && (
-                          <Image
-                            src={item.variant.product.images[0].url}
-                            alt={item.variant.product.title}
-                            fill
-                            className="object-cover"
-                          />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{item.variant.product.title}</p>
-                        <p className="text-xs text-ink/50 mt-0.5">
-                          {item.variant.size} · {item.variant.material} · {item.variant.frame}
-                        </p>
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center border border-line rounded-sm">
-                            <button
-                              className="p-1.5 disabled:opacity-30"
-                              disabled={loading}
-                              onClick={() => updateItem(item.variantId, item.quantity - 1)}
-                              aria-label="Decrease quantity"
-                            >
-                              <Minus size={12} />
-                            </button>
-                            <span className="px-2 text-sm">{item.quantity}</span>
-                            <button
-                              className="p-1.5 disabled:opacity-30"
-                              disabled={loading}
-                              onClick={() => updateItem(item.variantId, item.quantity + 1)}
-                              aria-label="Increase quantity"
-                            >
-                              <Plus size={12} />
-                            </button>
-                          </div>
-                          <span className="text-sm font-medium">{formatINR(item.variant.price * item.quantity)}</span>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => removeItem(item.variantId)}
-                        aria-label="Remove item"
-                        className="p-1 h-fit text-ink/40 hover:text-accent"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  ))}
+                  {cartItemsList}
                 </div>
 
                 <div className="border-t border-line px-6 py-5 space-y-2">
@@ -134,3 +159,6 @@ export function CartDrawer() {
     </AnimatePresence>
   );
 }
+
+// Memoize CartDrawer to prevent re-renders from parent updates
+export const CartDrawer = memo(CartDrawerContent);

@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function VerifyEmailPage() {
-  const params = useSearchParams();
+function VerifyEmailContent() {
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading');
 
   useEffect(() => {
-    const email = params.get('email');
-    const token = params.get('token');
+    const email = searchParams.get('email');
+    const token = searchParams.get('token');
     if (!email || !token) {
       setStatus('error');
       return;
@@ -22,7 +22,7 @@ export default function VerifyEmailPage() {
     })
       .then((res) => setStatus(res.ok ? 'ok' : 'error'))
       .catch(() => setStatus('error'));
-  }, [params]);
+  }, [searchParams]);
 
   return (
     <div className="container-page py-24 max-w-md mx-auto text-center">
@@ -30,7 +30,7 @@ export default function VerifyEmailPage() {
       {status === 'ok' && (
         <>
           <h1 className="text-2xl font-display">Email verified</h1>
-          <p className="text-ink/60 mt-3">You're all set. You can sign in now.</p>
+          <p className="text-ink/60 mt-3">You&apos;re all set. You can sign in now.</p>
           <Link href="/login" className="btn btn-primary mt-6">Sign in</Link>
         </>
       )}
@@ -42,5 +42,13 @@ export default function VerifyEmailPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }

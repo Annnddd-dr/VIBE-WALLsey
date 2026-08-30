@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { X, Eye, Sparkles, Check } from 'lucide-react';
 import Image from 'next/image';
 
@@ -11,6 +11,7 @@ interface RoomVisualizerProps {
   triggerButton?: React.ReactNode;
 }
 
+// Memoized constants to prevent recreation on every render
 const ROOMS = [
   { id: 'living', name: 'Living Room', icon: '🛋️', vibe: 'Modern & Spacious' },
   { id: 'bedroom', name: 'Master Bedroom', icon: '🛏️', vibe: 'Calm & Warm' },
@@ -32,7 +33,7 @@ const FRAMES = [
   { id: 'WOOD', label: 'Natural Oak', style: 'border-[8px] border-[#A87948] shadow-2xl ring-1 ring-black/20' },
 ];
 
-export function RoomVisualizer({
+function RoomVisualizerContent({
   imageUrl,
   title,
   frame = 'NONE',
@@ -198,3 +199,6 @@ export function RoomVisualizer({
     </>
   );
 }
+
+// Memoize to prevent unnecessary re-renders from parent component updates
+export const RoomVisualizer = memo(RoomVisualizerContent);

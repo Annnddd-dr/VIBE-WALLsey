@@ -53,7 +53,7 @@ export default async function HomePage() {
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="eyebrow">Collections</p>
-            <h2 className="text-3xl lg:text-4xl mt-2">Find your wall's next print.</h2>
+            <h2 className="text-3xl lg:text-4xl mt-2">Find your wall&apos;s next print.</h2>
           </div>
           <Link href="/collections" className="hidden sm:flex items-center gap-1 text-sm hover:text-accent">
             View all <ArrowRight size={14} />

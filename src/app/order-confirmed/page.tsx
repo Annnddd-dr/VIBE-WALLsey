@@ -7,7 +7,9 @@ export default function OrderConfirmedPage({ searchParams }: { searchParams: { o
       <CheckCircle2 size={48} className="text-accent" />
       <h1 className="text-3xl font-display mt-6">Order confirmed</h1>
       {searchParams.order && <p className="text-ink/60 mt-2">Order number: <strong>{searchParams.order}</strong></p>}
-      <p className="text-ink/60 mt-1 max-w-sm">We're preparing your print. A confirmation email is on its way.</p>
+      <p className="text-ink/60 mt-1 max-w-sm">
+  We&apos;re preparing your print. A confirmation email is on its way.
+</p>
       <div className="flex gap-4 mt-8">
         <Link href="/account/orders" className="btn btn-primary">Track order</Link>
         <Link href="/shop" className="btn btn-ghost">Continue shopping</Link>

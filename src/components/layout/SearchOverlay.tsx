@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef, memo } from 'react';
 import { X, Search } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { formatINR } from '@/lib/utils';
 
@@ -14,10 +15,11 @@ interface Result {
 
 const POPULAR = ['Anime posters', 'Minimalist', 'Movie posters', 'Cars', 'Gaming'];
 
-export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
+function SearchOverlayContent({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -26,17 +28,35 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
         setResults([]);
         return;
       }
+      
+      // Cancel previous request if exists
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+      
       setLoading(true);
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`, {
+          signal: abortControllerRef.current.signal,
+        });
         const data = await res.json();
         setResults(data.results ?? []);
+      } catch (error) {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Search error:', error);
+        }
       } finally {
         setLoading(false);
       }
     }, 250);
     return () => clearTimeout(handle);
   }, [query, open]);
+  
+  // Cleanup abort controller on unmount
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   if (!open) return null;
 
@@ -72,14 +92,25 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
           ) : loading ? (
             <p className="text-ink/50 text-sm">Searching...</p>
           ) : results.length === 0 ? (
-            <p className="text-ink/50 text-sm">No results for "{query}".</p>
+            <p className="text-ink/50 text-sm">
+  No results for &quot;{query}&quot;.
+</p>
           ) : (
             <ul className="space-y-4">
               {results.map((r) => (
                 <li key={r.slug}>
                   <Link href={`/product/${r.slug}`} onClick={onClose} className="flex items-center gap-4 group">
                     <div className="w-14 h-16 bg-line/40 rounded-sm overflow-hidden shrink-0">
-                      {r.image && <img src={r.image} alt={r.title} className="w-full h-full object-cover" />}
+                      {r.image ? (
+                        <Image
+                          src={r.image}
+                          alt={r.title}
+                          width={100}
+                          height={100}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : null}
                     </div>
                     <div>
                       <p className="text-sm group-hover:text-accent transition-colors">{r.title}</p>
@@ -95,3 +126,5 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
     </div>
   );
 }
+
+export const SearchOverlay = memo(SearchOverlayContent);

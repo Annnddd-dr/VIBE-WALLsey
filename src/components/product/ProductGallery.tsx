@@ -12,7 +12,15 @@ export function ProductGallery({ images, title }: { images: { url: string; altTe
   return (
     <div>
       <div className="relative aspect-[3/4] bg-line/30 rounded-sm overflow-hidden group">
-        <Image src={imgs[active].url} alt={imgs[active].altText ?? title} fill className="object-cover" priority />
+        <Image 
+          src={imgs[active].url} 
+          alt={imgs[active].altText ?? title} 
+          fill 
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          placeholder="empty"
+          className="object-cover" 
+          priority 
+        />
         <button
           onClick={() => setFullscreen(true)}
           aria-label="View fullscreen"
@@ -29,7 +37,14 @@ export function ProductGallery({ images, title }: { images: { url: string; altTe
               onClick={() => setActive(i)}
               className={`relative w-16 h-20 rounded-sm overflow-hidden border ${i === active ? 'border-ink' : 'border-line'}`}
             >
-              <Image src={img.url} alt="" fill className="object-cover" />
+              <Image 
+                src={img.url} 
+                alt="" 
+                fill 
+                sizes="(max-width: 768px) 80px, 64px"
+                loading="lazy"
+                className="object-cover" 
+              />
             </button>
           ))}
         </div>
@@ -39,7 +54,13 @@ export function ProductGallery({ images, title }: { images: { url: string; altTe
         <div className="fixed inset-0 z-[60] bg-ink/95 flex items-center justify-center p-6" onClick={() => setFullscreen(false)}>
           <button className="absolute top-6 right-6 text-paper" aria-label="Close"><X size={26} /></button>
           <div className="relative w-full max-w-2xl aspect-[3/4]">
-            <Image src={imgs[active].url} alt={imgs[active].altText ?? title} fill className="object-contain" />
+            <Image 
+              src={imgs[active].url} 
+              alt={imgs[active].altText ?? title} 
+              fill 
+              sizes="(max-width: 768px) 100vw, 90vw"
+              className="object-contain" 
+            />
           </div>
         </div>
       )}

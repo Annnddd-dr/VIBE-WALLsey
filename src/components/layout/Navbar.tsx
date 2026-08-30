@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo, useRef, useCallback } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { Search, Heart, User, ShoppingBag, Menu, X } from 'lucide-react';
 import { useCart } from '@/components/cart/CartContext';
@@ -18,19 +18,32 @@ const LINKS = [
   { href: '/about', label: 'About' },
 ];
 
-export function Navbar() {
+function NavbarContent() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { itemCount, openCart } = useCart();
   const { wishlistCount } = useWishlist();
   const { data: session } = useSession();
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Throttle scroll event listener to improve performance
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      if (scrollTimeoutRef.current) return;
+      
+      scrollTimeoutRef.current = setTimeout(() => {
+        setScrolled(window.scrollY > 24);
+        scrollTimeoutRef.current = null;
+      }, 50);
+    };
+    
     onScroll();
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
   }, []);
 
   return (
@@ -105,3 +118,6 @@ export function Navbar() {
     </>
   );
 }
+
+// Memoize Navbar to prevent re-renders from parent updates
+export const Navbar = memo(NavbarContent);

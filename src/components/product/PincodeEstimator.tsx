@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Truck, CheckCircle2, AlertCircle, Loader2, MapPin } from 'lucide-react';
 import { ShippingEstimateResult } from '@/lib/shipping';
 
@@ -12,18 +12,8 @@ export function PincodeEstimator() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Auto-load saved pincode
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved && /^[1-9][0-9]{5}$/.test(saved)) {
-        setPincode(saved);
-        checkPincode(saved);
-      }
-    } catch {}
-  }, []);
-
-  const checkPincode = async (codeToCheck?: string) => {
+  // Memoize checkPincode to prevent re-creation on every render
+  const checkPincode = useCallback(async (codeToCheck?: string) => {
     const pin = (codeToCheck || pincode).trim();
     if (!/^[1-9][0-9]{5}$/.test(pin)) {
       setError('Enter a valid 6-digit PIN code');
@@ -51,7 +41,18 @@ export function PincodeEstimator() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pincode]);
+
+  // Auto-load saved pincode
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && /^[1-9][0-9]{5}$/.test(saved)) {
+        setPincode(saved);
+        checkPincode(saved);
+      }
+    } catch {}
+  }, [checkPincode]);
 
   return (
     <div className="border border-line rounded-sm p-4 bg-white/70 space-y-3">
