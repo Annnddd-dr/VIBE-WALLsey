@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Truck, CheckCircle2, AlertCircle, Loader2, MapPin } from 'lucide-react';
 import { ShippingEstimateResult } from '@/lib/shipping';
 
-const STORAGE_KEY = 'posterraxx_pincode';
+const STORAGE_KEY = 'vibewallsey_pincode';
 
 export function PincodeEstimator() {
   const [pincode, setPincode] = useState('');
@@ -55,7 +55,7 @@ export function PincodeEstimator() {
   }, [checkPincode]);
 
   return (
-    <div className="border border-line rounded-sm p-4 bg-white/70 space-y-3">
+    <div className="border border-line rounded-sm p-4 bg-surface/70 space-y-3">
       <div className="flex items-center gap-1.5 text-xs font-semibold text-ink/70">
         <Truck size={14} className="text-accent" />
         <span>Delivery & Courier Estimate</span>
@@ -107,7 +107,7 @@ export function PincodeEstimator() {
               <CheckCircle2 size={11} /> COD Available
             </span>
             <span>·</span>
-            <span>Free delivery on ₹1,499+</span>
+            <span>Free delivery on ₹500+</span>
           </div>
         </div>
       )}

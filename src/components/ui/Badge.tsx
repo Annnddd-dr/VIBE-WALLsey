@@ -6,7 +6,7 @@ export function Badge({ children, tone = 'default' }: { children: React.ReactNod
       className={cn(
         'inline-block text-[10px] uppercase tracking-widest font-semibold px-2 py-1 rounded-sm',
         tone === 'default' && 'bg-ink text-paper',
-        tone === 'accent' && 'bg-accent text-white',
+        tone === 'accent' && 'bg-accent text-[#171717]',
         tone === 'muted' && 'bg-line text-ink/70'
       )}
     >

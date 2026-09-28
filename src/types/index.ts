@@ -1,24 +1,23 @@
-import { PosterSize, PosterMaterial, PosterFrame } from '@prisma/client';
+import { PosterSize } from '@prisma/client';
 
 export const SIZE_LABELS: Record<PosterSize, { label: string; dims: string }> = {
+  A6: { label: 'A6', dims: '105 × 148 mm' },
   A5: { label: 'A5', dims: '148 × 210 mm' },
   A4: { label: 'A4', dims: '210 × 297 mm' },
   A3: { label: 'A3', dims: '297 × 420 mm' },
-  A2: { label: 'A2', dims: '420 × 594 mm' },
-  A1: { label: 'A1', dims: '594 × 841 mm' },
+  POLAROID: { label: 'Polaroid', dims: 'Square print with classic white border' },
 };
 
-export const MATERIAL_LABELS: Record<PosterMaterial, string> = {
-  MATTE: 'Matte',
-  GLOSSY: 'Glossy',
-  TEXTURED: 'Textured',
-};
-
-export const FRAME_LABELS: Record<PosterFrame, string> = {
-  NONE: 'No Frame',
-  BLACK: 'Black Frame',
-  WHITE: 'White Frame',
-  WOOD: 'Wood Frame',
+/**
+ * Official price sheet (paise) — one finish per size, premium matte, unframed:
+ *   Polaroid ₹10 · A6 ₹15 · A5 ₹30 · A4 ₹40 · A3 ₹60
+ */
+export const SIZE_BASE_PRICE: Record<PosterSize, number> = {
+  POLAROID: 1000,
+  A6: 1500,
+  A5: 3000,
+  A4: 4000,
+  A3: 6000,
 };
 
 export interface CartSummaryDTO {

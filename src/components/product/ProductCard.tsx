@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart } from 'lucide-react';
 import { useState, memo } from 'react';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { Rating } from '@/components/ui/Rating';
 import { Badge } from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartContext';
 import { useWishlist } from '@/components/product/WishlistContext';
+import { LikeButton } from '@/components/product/LikeButton';
 
 export interface ProductCardData {
   id?: string;
@@ -49,22 +49,14 @@ function ProductCardContent({ product }: { product: ProductCardData }) {
           {product.bestSeller && <Badge tone="accent">Bestseller</Badge>}
           {product.newArrival && <Badge tone="muted">New</Badge>}
         </div>
-        <button
-          type="button"
-          aria-label={isFavorited ? 'Remove from wishlist' : 'Add to wishlist'}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleWishlist(productId);
-          }}
-          className={`absolute top-3 right-3 p-2 rounded-full transition-all ${
-            isFavorited
-              ? 'bg-white text-red-500 shadow-md opacity-100'
-              : 'bg-paper/90 text-ink/60 hover:text-ink opacity-0 group-hover:opacity-100 hover:scale-110'
+        <LikeButton
+          liked={isFavorited}
+          onToggle={() => toggleWishlist(productId)}
+          size={16}
+          className={`!absolute top-2 right-2 z-10 rounded-full bg-paper/90 shadow-md backdrop-blur-sm transition-opacity ${
+            isFavorited ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
           }`}
-        >
-          <Heart size={15} className={isFavorited ? 'fill-red-500 text-red-500' : ''} />
-        </button>
+        />
         {product.defaultVariantId && (
           <button
             onClick={(e) => {

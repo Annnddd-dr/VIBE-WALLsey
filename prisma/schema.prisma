@@ -75,6 +75,18 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+/// Short-lived hashed OTP codes for phone-number sign-in.
+model PhoneOtp {
+  id        String   @id @default(cuid())
+  phone     String
+  codeHash  String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+}
+
 model Address {
   id         String   @id @default(cuid())
   userId     String
@@ -135,6 +147,7 @@ model Product {
 
   seoTitle       String?
   seoDescription String?
+  customDesign   Json?
 
   ratingAvg   Float @default(0)
   ratingCount Int   @default(0)
@@ -164,24 +177,19 @@ model ProductImage {
 }
 
 enum PosterSize {
+  A6
   A5
   A4
   A3
-  A2
-  A1
+  POLAROID
 }
 
 enum PosterMaterial {
   MATTE
-  GLOSSY
-  TEXTURED
 }
 
 enum PosterFrame {
   NONE
-  BLACK
-  WHITE
-  WOOD
 }
 
 model ProductVariant {
@@ -189,8 +197,8 @@ model ProductVariant {
   productId String
 
   size     PosterSize
-  material PosterMaterial
-  frame    PosterFrame
+  material PosterMaterial @default(MATTE)
+  frame    PosterFrame    @default(NONE)
 
   sku            String  @unique
   price          Int
@@ -206,7 +214,7 @@ model ProductVariant {
   cartItems  CartItem[]
   orderItems OrderItem[]
 
-  @@unique([productId, size, material, frame])
+  @@unique([productId, size])
   @@index([productId])
 }
 

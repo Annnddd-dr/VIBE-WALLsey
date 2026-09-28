@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Character dancing among floating posters">
+  <defs>
+    <linearGradient id="sunsetGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6B5CA5"/>
+      <stop offset="55%" stop-color="#E98A5B"/>
+      <stop offset="100%" stop-color="#F7C873"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ============ BACKGROUND ============ -->
+  <rect width="1000" height="1000" fill="#FBFAF7"/>
+
+  <!-- ============ ORGANIC BLUE BLOB ============ -->
+  <path fill="#6CB8F0" d="
+    M 502 96
+    C 648 78 782 148 846 268
+    C 906 380 902 520 872 622
+    C 838 740 756 836 632 886
+    C 512 934 372 936 260 878
+    C 152 822 84 714 74 588
+    C 64 462 96 330 178 232
+    C 262 132 368 112 502 96 Z"/>
+
+  <!-- ============ DECORATIVE MARKS ============ -->
+  <g stroke="#1F2937" stroke-width="2.4" stroke-linecap="round" fill="none">
+    <path d="M 138 328 l 14 14 M 152 328 l -14 14"/>
+    <path d="M 856 268 l 12 12 M 868 268 l -12 12"/>
+    <path d="M 122 680 l 12 12 M 134 680 l -12 12"/>
+    <path d="M 560 92 l 11 11 M 571 92 l -11 11"/>
+    <path d="M 884 546 l 10 10 M 894 546 l -10 10"/>
+    <path d="M 792 470 l 34 8" stroke-width="2"/>
+    <path d="M 788 494 l 28 10" stroke-width="2"/>
+    <path d="M 176 452 l 26 -6" stroke-width="2"/>
+    <path d="M 172 474 l 20 -8" stroke-width="2"/>
+  </g>
+  <g fill="#1F2937">
+    <circle cx="212" cy="212" r="3.4"/>
+    <circle cx="836" cy="132" r="3"/>
+    <circle cx="90" cy="470" r="3"/>
+    <circle cx="646" cy="918" r="3.2"/>
+    <circle cx="322" cy="72" r="2.6"/>
+  </g>
+  <g fill="none" stroke="#1F2937" stroke-width="1.6">
+    <circle cx="272" cy="140" r="7"/>
+    <circle cx="812" cy="826" r="6"/>
+  </g>
+
+  <!-- ============ FLOATING POSTERS ============ -->
+
+  <!-- P1: GOOD IDEAS TAKE TIME — upper right -->
+  <g transform="translate(712 216) rotate(7)">
+    <rect x="-84" y="-110" width="168" height="220" rx="3" fill="#101014" stroke="#1F2937" stroke-width="2"/>
+    <text x="0" y="-58" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="26" letter-spacing="1">GOOD</text>
+    <text x="0" y="-24" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="26" letter-spacing="1">IDEAS</text>
+    <text x="0" y="10" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="26" letter-spacing="1">TAKE</text>
+    <text x="0" y="44" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="26" letter-spacing="1">TIME</text>
+    <path d="M -30 66 Q 0 56 30 66" fill="none" stroke="#F2C230" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="52" cy="82" r="9" fill="none" stroke="#F2C230" stroke-width="1.8"/>
+    <circle cx="49" cy="79" r="1.2" fill="#F2C230"/>
+    <circle cx="55" cy="79" r="1.2" fill="#F2C230"/>
+    <path d="M 48.5 85 Q 52 88 55.5 85" fill="none" stroke="#F2C230" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- P2: MUSIC HEALS — right middle -->
+  <g transform="translate(852 462) rotate(-4)">
+    <rect x="-72" y="-98" width="144" height="196" rx="3" fill="#F6EFDE" stroke="#1F2937" stroke-width="2"/>
+    <text x="-56" y="-66" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="14" letter-spacing="1">MUSIC</text>
+    <text x="-56" y="-48" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="14" letter-spacing="1">HEALS</text>
+    <circle cx="18" cy="22" r="46" fill="#15151A"/>
+    <circle cx="18" cy="22" r="38" fill="none" stroke="#2E2E36" stroke-width="1"/>
+    <circle cx="18" cy="22" r="30" fill="none" stroke="#2E2E36" stroke-width="1"/>
+    <circle cx="18" cy="22" r="15" fill="#E8663C"/>
+    <circle cx="18" cy="22" r="2.4" fill="#15151A"/>
+    <g stroke="#9A917E" stroke-width="1.4">
+      <line x1="-56" y1="72" x2="-26" y2="72"/>
+      <line x1="-56" y1="80" x2="-34" y2="80"/>
+    </g>
+  </g>
+
+  <!-- P3: A BRIGHTER YOU — lower right, botanical -->
+  <g transform="translate(760 716) rotate(5)">
+    <rect x="-80" y="-102" width="160" height="204" rx="3" fill="#F5EEDF" stroke="#1F2937" stroke-width="2"/>
+    <text x="-62" y="-70" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="15">A</text>
+    <text x="-62" y="-50" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="15">BRIGHTER</text>
+    <text x="-62" y="-30" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="15">YOU</text>
+    <path d="M 16 74 C 24 34 30 0 46 -52" fill="none" stroke="#2E5D3A" stroke-width="2.4"/>
+    <path d="M 30 -4 C 40 -14 54 -14 62 -6 C 52 4 38 6 30 -4 Z" fill="#3E7C4F"/>
+    <path d="M 34 -28 C 44 -40 58 -40 66 -30 C 56 -20 42 -18 34 -28 Z" fill="#57875F"/>
+    <path d="M 42 -50 C 50 -62 64 -62 72 -52 C 62 -42 50 -42 42 -50 Z" fill="#6FA07A"/>
+    <path d="M 8 22 C 0 14 -2 4 4 -2 C 12 4 14 14 8 22 Z" fill="#57875F"/>
+  </g>
+
+  <!-- P4: CREATE EXPLORE REPEAT — left middle -->
+  <g transform="translate(178 470) rotate(-5)">
+    <rect x="-84" y="-100" width="168" height="200" rx="3" fill="#F6EFDE" stroke="#1F2937" stroke-width="2"/>
+    <text x="0" y="-40" text-anchor="middle" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="23" letter-spacing="1">CREATE</text>
+    <text x="0" y="-8" text-anchor="middle" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="23" letter-spacing="1">EXPLORE</text>
+    <text x="0" y="24" text-anchor="middle" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="23" letter-spacing="1">REPEAT</text>
+    <line x1="-18" y1="46" x2="18" y2="46" stroke="#17171A" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- P5: ART LIVES FOREVER — lower left -->
+  <g transform="translate(206 764) rotate(4)">
+    <rect x="-76" y="-96" width="152" height="192" rx="3" fill="#EFEFE8" stroke="#1F2937" stroke-width="2"/>
+    <g fill="#D8D8D0" stroke="#1F2937" stroke-width="1.6">
+      <rect x="-30" y="42" width="60" height="13"/>
+      <path d="M -25 42 C -21 22 -10 12 0 12 C 10 12 21 22 25 42 Z"/>
+      <circle cx="0" cy="-10" r="19"/>
+    </g>
+    <path d="M -13 -25 Q -7 -32 0 -30 M 2 -30 Q 9 -30 12 -23 M -16 -17 Q -14 -24 -9 -28" fill="none" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="-21" y="-16" width="42" height="9" fill="#F2C230" stroke="#1F2937" stroke-width="1.4"/>
+    <text x="0" y="74" text-anchor="middle" fill="#17171A" font-family="Georgia, serif" font-weight="700" font-size="9" letter-spacing="1">ART LIVES FOREVER</text>
+  </g>
+
+  <!-- P6: GOOD VIBES ONLY — bottom right (clear of the feet) -->
+  <g transform="translate(668 878) rotate(-4)">
+    <rect x="-78" y="-92" width="156" height="184" rx="3" fill="#F7C873" stroke="#1F2937" stroke-width="2"/>
+    <rect x="-66" y="-80" width="132" height="126" fill="#E98A5B"/>
+    <circle cx="4" cy="-26" r="14" fill="#FFE7B0"/>
+    <rect x="-66" y="24" width="132" height="22" fill="#33517E"/>
+    <path d="M -44 46 C -46 18 -40 -2 -32 -18 M -32 -18 C -46 -26 -58 -24 -64 -16 M -32 -18 C -26 -32 -14 -36 -4 -34 M -32 -18 C -40 -14 -46 -8 -48 0" fill="none" stroke="#22301F" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 46 46 C 46 28 44 14 40 4 M 40 4 C 32 -2 24 -2 18 2 M 40 4 C 44 -4 50 -8 56 -6" fill="none" stroke="#22301F" stroke-width="2.6" stroke-linecap="round"/>
+    <text x="22" y="-58" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-style="italic" font-weight="600" font-size="17">Good</text>
+    <text x="22" y="-38" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-style="italic" font-weight="600" font-size="17">Vibes</text>
+    <text x="22" y="-18" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-style="italic" font-weight="600" font-size="17">Only</text>
+  </g>
+
+  <!-- ============ HELD POSTER — CHASE BETTER DAYS ============ -->
+  <g transform="translate(300 235) rotate(-7)">
+    <rect x="-70" y="-94" width="140" height="188" rx="3" fill="#FFFFFF" stroke="#1F2937" stroke-width="2.2"/>
+    <rect x="-58" y="-82" width="116" height="130" fill="url(#sunsetGrad)"/>
+    <circle cx="38" cy="-36" r="10" fill="#FFE0A8"/>
+    <path d="M -58 48 L -20 -6 L 4 48 Z" fill="#3A3466"/>
+    <path d="M -12 48 L 24 -2 L 58 48 Z" fill="#2C2755"/>
+    <text x="0" y="-56" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="13" letter-spacing="0.5">CHASE</text>
+    <text x="0" y="-40" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="13" letter-spacing="0.5">BETTER</text>
+    <text x="0" y="-24" text-anchor="middle" fill="#FFFFFF" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="13" letter-spacing="0.5">DAYS</text>
+    <text x="0" y="78" text-anchor="middle" fill="#17171A" font-family="Georgia, serif" font-size="8" letter-spacing="2">— 2026 —</text>
+  </g>
+
+  <!-- ============ CHARACTER ============ -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- LEFT ARM (hanging) — drawn before torso so the sleeve covers the shoulder joint -->
+    <path d="M 548 430 C 568 456 580 488 584 518 C 586 536 582 550 574 560 L 554 552 C 560 534 558 512 550 490 C 542 468 532 450 522 438 Z"
+          fill="#FDFCF8" stroke="#1F2937" stroke-width="2"/>
+
+    <!-- RAISED RIGHT ARM — single closed shape, shoulder tucked under the sleeve -->
+    <path d="M 460 428 C 432 412 406 388 392 362 C 384 348 379 336 380 326 L 404 318 C 408 336 420 358 438 378 C 450 392 462 402 474 410 Z"
+          fill="#FDFCF8" stroke="#1F2937" stroke-width="2"/>
+
+    <!-- BACK LEG — bent, lifted, folded behind -->
+    <path d="M 508 572 C 536 592 562 616 580 640 C 588 650 592 660 593 670 L 558 680 C 553 666 545 652 532 636 C 520 622 508 606 498 594 Z"
+          fill="#8FCAF2" stroke="#1F2937" stroke-width="2.2"/>
+    <path d="M 558 680 C 572 676 584 672 593 670 C 596 696 590 722 578 742 C 572 752 564 758 556 758 C 550 748 552 736 558 724 C 564 708 564 694 558 680 Z"
+          fill="#8FCAF2" stroke="#1F2937" stroke-width="2.2"/>
+    <!-- back shoe -->
+    <path d="M 542 752 C 532 758 528 770 534 780 C 542 790 560 792 572 786 C 582 780 584 768 576 760 C 568 752 554 750 542 752 Z"
+          fill="#16181D" stroke="#1F2937" stroke-width="2"/>
+    <path d="M 534 776 C 546 784 562 784 574 778" fill="none" stroke="#FFFFFF" stroke-width="3.2"/>
+
+    <!-- FRONT LEG — supporting, long and straight with a soft knee -->
+    <path d="M 450 574 C 446 626 446 678 452 724 C 455 754 458 778 461 796 L 493 794 C 491 762 491 720 493 678 C 495 642 497 608 499 584 Z"
+          fill="#8FCAF2" stroke="#1F2937" stroke-width="2.2"/>
+    <path d="M 454 776 L 492 774" fill="none" stroke="#1F2937" stroke-width="1.7" opacity="0.65"/>
+    <!-- front shoe -->
+    <path d="M 492 792 C 498 798 500 810 496 818 C 488 828 468 832 454 828 C 442 824 440 812 448 802 C 456 793 470 790 480 792 Z"
+          fill="#16181D" stroke="#1F2937" stroke-width="2"/>
+    <path d="M 448 820 C 462 828 482 826 496 816" fill="none" stroke="#FFFFFF" stroke-width="3.2"/>
+
+    <!-- TORSO — narrow shoulders, slim, oversized yellow tee -->
+    <path d="M 458 404
+             C 446 408 440 418 440 430
+             C 440 442 446 452 456 456
+             C 450 490 448 526 454 558
+             C 457 576 464 590 474 596
+             C 496 604 520 602 540 594
+             C 548 584 554 568 556 548
+             C 560 514 558 480 550 454
+             C 560 448 566 438 564 426
+             C 562 414 554 406 544 402
+             C 514 394 484 396 458 404 Z"
+          fill="#F2C230" stroke="#1F2937" stroke-width="2.2"/>
+    <!-- sleeve hems + collar -->
+    <path d="M 441 448 C 447 454 455 458 463 460" fill="none" stroke="#1F2937" stroke-width="1.8" opacity="0.85"/>
+    <path d="M 563 444 C 557 450 549 454 541 456" fill="none" stroke="#1F2937" stroke-width="1.8" opacity="0.85"/>
+    <path d="M 480 402 Q 500 414 522 400" fill="none" stroke="#1F2937" stroke-width="1.8" opacity="0.85"/>
+    <!-- subtle folds -->
+    <path d="M 480 486 C 484 512 484 538 480 560 M 522 484 C 518 510 518 536 522 558"
+          fill="none" stroke="#D9A413" stroke-width="2.4" opacity="0.5"/>
+
+    <!-- LEFT HAND — relaxed fingers -->
+    <path d="M 570 556 C 566 568 568 580 576 586 C 584 590 592 586 594 578 C 596 568 592 558 586 552 Z"
+          fill="#FDFCF8" stroke="#1F2937" stroke-width="2"/>
+    <path d="M 576 586 C 578 590 582 592 586 591 M 582 584 C 585 587 588 588 591 586"
+          fill="none" stroke="#1F2937" stroke-width="1.4"/>
+
+    <!-- NECK — drawn over the collar, sides fade at the neckline -->
+    <path d="M 480 316 L 482 412 L 520 410 L 518 314 Z" fill="#FDFCF8" stroke="none"/>
+    <path d="M 480 316 L 482 404 M 518 314 L 520 402" fill="none" stroke="#1F2937" stroke-width="2"/>
+
+    <!-- HEAD — slightly oversized, chin overlapping the collar -->
+    <ellipse cx="500" cy="330" rx="49" ry="55" fill="#FDFCF8" stroke="#1F2937" stroke-width="2.2"/>
+    <circle cx="542" cy="338" r="8" fill="#FDFCF8" stroke="#1F2937" stroke-width="1.8"/>
+    <path d="M 540 334 Q 543 338 540 342" fill="none" stroke="#1F2937" stroke-width="1.3"/>
+
+    <!-- HAIR — solid black, side-swept with a windswept flick -->
+    <path d="M 452 340
+             C 442 290 472 250 518 254
+             C 558 258 578 288 574 324
+             C 568 304 554 290 538 286
+             C 546 300 548 314 544 326
+             C 530 304 508 294 486 298
+             C 464 302 454 318 452 340 Z"
+          fill="#16181D"/>
+
+    <!-- FACE — minimal -->
+    <circle cx="478" cy="346" r="14.5" fill="#FFFFFF" stroke="#1F2937" stroke-width="2.2"/>
+    <circle cx="513" cy="344" r="14.5" fill="#FFFFFF" stroke="#1F2937" stroke-width="2.2"/>
+    <line x1="492.5" y1="345" x2="498.5" y2="344.5" stroke="#1F2937" stroke-width="2"/>
+    <line x1="527.5" y1="342.5" x2="537" y2="340" stroke="#1F2937" stroke-width="1.8"/>
+    <circle cx="479" cy="346" r="2.5" fill="#16181D"/>
+    <circle cx="512" cy="344" r="2.5" fill="#16181D"/>
+    <path d="M 468 328 Q 477 324 486 327" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 503 326 Q 511 323 519 325" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 494 356 Q 497 364 493 368" fill="none" stroke="#1F2937" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 488 376 Q 496 380 504 375" fill="none" stroke="#1F2937" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- RIGHT HAND — gripping the poster's lower corner (drawn last, over the poster) -->
+    <path d="M 372 312
+             C 364 318 360 328 362 338
+             C 364 348 372 354 382 354
+             C 390 354 396 348 398 340
+             L 398 322 C 394 314 384 310 372 312 Z"
+          fill="#FDFCF8" stroke="#1F2937" stroke-width="2"/>
+    <path d="M 376 312 C 386 308 396 310 402 316" fill="none" stroke="#1F2937" stroke-width="1.8"/>
+    <path d="M 374 322 C 384 318 394 319 402 322" fill="none" stroke="#1F2937" stroke-width="1.6"/>
+    <path d="M 374 332 C 382 330 390 330 398 331" fill="none" stroke="#1F2937" stroke-width="1.6"/>
+    <path d="M 368 320 C 364 314 366 308 372 306" fill="none" stroke="#1F2937" stroke-width="1.6"/>
+  </g>
+</svg>

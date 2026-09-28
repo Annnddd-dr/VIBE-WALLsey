@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-import { Plus, ExternalLink, Pencil, Search } from 'lucide-react';
+import { Plus, ExternalLink, Pencil, Trash2 } from 'lucide-react';
 import { ProductListFilters } from './ProductListFilters';
+import { ProductActions } from './ProductActions';
 
 export default async function AdminProductsPage({
   searchParams,
@@ -152,6 +153,7 @@ export default async function AdminProductsPage({
                       >
                         <ExternalLink size={14} />
                       </Link>
+                      <ProductActions productId={p.id} productTitle={p.title} />
                     </div>
                   </td>
                 </tr>

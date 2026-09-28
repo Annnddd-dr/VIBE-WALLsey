@@ -17,24 +17,16 @@ import {
   Clock,
 } from 'lucide-react';
 
-// --- Variant generation constants (mirroring seed.ts / API) ---
+// --- Variant generation constants (mirroring seed.ts / official price sheet) ---
+// Base price entered here = the A5 price; sizes scale per the official sheet
+// (Polaroid ₹10 · A6 ₹15 · A5 ₹30 · A4 ₹40 · A3 ₹60 at the default base).
+// One finish per size — materials and frames are no longer part of the catalog.
 const SIZES = [
+  { size: 'POLAROID', label: 'Polaroid (square)', mult: 1 / 3 },
+  { size: 'A6', label: 'A6 (105×148mm)', mult: 0.5 },
   { size: 'A5', label: 'A5 (148×210mm)', mult: 1 },
-  { size: 'A4', label: 'A4 (210×297mm)', mult: 1.5 },
-  { size: 'A3', label: 'A3 (297×420mm)', mult: 2.2 },
-  { size: 'A2', label: 'A2 (420×594mm)', mult: 3.2 },
-  { size: 'A1', label: 'A1 (594×841mm)', mult: 4.5 },
-];
-const MATERIALS = [
-  { material: 'MATTE', label: 'Matte', addon: 0 },
-  { material: 'GLOSSY', label: 'Glossy', addon: 5000 },
-  { material: 'TEXTURED', label: 'Textured', addon: 8000 },
-];
-const FRAMES = [
-  { frame: 'NONE', label: 'No Frame', addon: 0 },
-  { frame: 'BLACK', label: 'Black', addon: 30000 },
-  { frame: 'WHITE', label: 'White', addon: 30000 },
-  { frame: 'WOOD', label: 'Wood', addon: 45000 },
+  { size: 'A4', label: 'A4 (210×297mm)', mult: 4 / 3 },
+  { size: 'A3', label: 'A3 (297×420mm)', mult: 2 },
 ];
 
 interface Category {
@@ -46,8 +38,6 @@ interface Category {
 interface VariantData {
   id?: string;
   size: string;
-  material: string;
-  frame: string;
   sku: string;
   price: number;
   compareAtPrice: number | null;
@@ -77,8 +67,8 @@ function rupeesToPaise(rupees: string): number {
   return isNaN(n) ? 0 : Math.round(n * 100);
 }
 
-function computeVariantPrice(basePaise: number, sizeMult: number, materialAddon: number, frameAddon: number): number {
-  return Math.round(basePaise * sizeMult) + materialAddon + frameAddon;
+function computeVariantPrice(basePaise: number, sizeMult: number): number {
+  return Math.round(basePaise * sizeMult);
 }
 
 export function ProductForm({ mode, categories, initialData }: ProductFormProps) {
@@ -138,8 +128,6 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
         initialData.variants.map((v: any) => ({
           id: v.id,
           size: v.size,
-          material: v.material,
-          frame: v.frame,
           sku: v.sku,
           price: v.price,
           compareAtPrice: v.compareAtPrice,
@@ -151,22 +139,14 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
   }, [isEdit, initialData]);
 
   // Compute preview variants in create mode
-  const previewVariants = SIZES.map((s) =>
-    MATERIALS.map((m) =>
-      FRAMES.map((f) => ({
-        size: s.size,
-        sizeLabel: s.label,
-        material: m.material,
-        materialLabel: m.label,
-        frame: f.frame,
-        frameLabel: f.label,
-        price: computeVariantPrice(rupeesToPaise(basePriceRupees), s.mult, m.addon, f.addon),
-        compareAtPrice: compareAtPriceRupees
-          ? computeVariantPrice(rupeesToPaise(compareAtPriceRupees), s.mult, m.addon, f.addon)
-          : null,
-      }))
-    )
-  ).flat(2);
+  const previewVariants = SIZES.map((s) => ({
+    size: s.size,
+    sizeLabel: s.label,
+    price: computeVariantPrice(rupeesToPaise(basePriceRupees), s.mult),
+    compareAtPrice: compareAtPriceRupees
+      ? computeVariantPrice(rupeesToPaise(compareAtPriceRupees), s.mult)
+      : null,
+  }));
 
   // Filtered variants for display
   const displayVariants = isEdit ? variants : previewVariants;
@@ -465,11 +445,10 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                 key={key}
                 type="button"
                 onClick={() => set(!value)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-sm text-sm font-medium transition-all border ${
-                  value
-                    ? 'bg-accent/10 border-accent text-accent'
-                    : 'bg-white border-line text-ink/40 hover:border-ink/20 hover:text-ink/60'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-sm text-sm font-medium transition-all border ${value
+                  ? 'bg-accent/10 border-accent text-accent'
+                  : 'bg-white border-line text-ink/40 hover:border-ink/20 hover:text-ink/60'
+                  }`}
               >
                 <Icon size={14} />
                 {label}
@@ -554,44 +533,32 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
           {!isEdit && basePriceRupees && (
             <div className="mt-5 overflow-x-auto">
               <p className="text-xs text-ink/40 mb-2">
-                Price preview — {SIZES.length} sizes × {MATERIALS.length} materials × {FRAMES.length} frames = {SIZES.length * MATERIALS.length * FRAMES.length} variants
+                Price preview — {SIZES.length} sizes, one finish each
               </p>
               <table className="w-full text-xs">
                 <thead className="bg-line/30 text-ink/50 uppercase tracking-wide">
                   <tr>
                     <th className="text-left px-3 py-2">Size</th>
-                    {MATERIALS.map((m) =>
-                      FRAMES.map((f) => (
-                        <th key={`${m.material}-${f.frame}`} className="text-right px-3 py-2">
-                          {m.label}
-                          <br />
-                          <span className="font-normal normal-case">{f.label}</span>
-                        </th>
-                      ))
-                    )}
+                    <th className="text-right px-3 py-2">Price</th>
+                    <th className="text-right px-3 py-2">Compare-at</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {SIZES.map((s) => (
-                    <tr key={s.size} className="border-t border-line">
-                      <td className="px-3 py-2 font-medium">{s.label}</td>
-                      {MATERIALS.map((m) =>
-                        FRAMES.map((f) => {
-                          const price = computeVariantPrice(
-                            rupeesToPaise(basePriceRupees),
-                            s.mult,
-                            m.addon,
-                            f.addon
-                          );
-                          return (
-                            <td key={`${m.material}-${f.frame}`} className="text-right px-3 py-2 tabular-nums">
-                              ₹{(price / 100).toLocaleString('en-IN')}
-                            </td>
-                          );
-                        })
-                      )}
-                    </tr>
-                  ))}
+                  {SIZES.map((s) => {
+                    const price = computeVariantPrice(rupeesToPaise(basePriceRupees), s.mult);
+                    const compare = compareAtPriceRupees
+                      ? computeVariantPrice(rupeesToPaise(compareAtPriceRupees), s.mult)
+                      : null;
+                    return (
+                      <tr key={s.size} className="border-t border-line">
+                        <td className="px-3 py-2 font-medium">{s.label}</td>
+                        <td className="text-right px-3 py-2 tabular-nums">₹{(price / 100).toLocaleString('en-IN')}</td>
+                        <td className="text-right px-3 py-2 tabular-nums text-ink/50">
+                          {compare ? `₹${(compare / 100).toLocaleString('en-IN')}` : '—'}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -621,11 +588,10 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                       key={s}
                       type="button"
                       onClick={() => setVariantSizeFilter(s)}
-                      className={`px-3 py-1.5 text-xs rounded-sm transition-colors ${
-                        variantSizeFilter === s
-                          ? 'bg-ink text-paper'
-                          : 'bg-line/50 text-ink/50 hover:bg-line'
-                      }`}
+                      className={`px-3 py-1.5 text-xs rounded-sm transition-colors ${variantSizeFilter === s
+                        ? 'bg-ink text-paper'
+                        : 'bg-line/50 text-ink/50 hover:bg-line'
+                        }`}
                     >
                       {s}
                     </button>
@@ -639,8 +605,6 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                       <tr>
                         <th className="text-left px-3 py-2">SKU</th>
                         <th className="text-left px-3 py-2">Size</th>
-                        <th className="text-left px-3 py-2">Material</th>
-                        <th className="text-left px-3 py-2">Frame</th>
                         <th className="text-right px-3 py-2">Price (₹)</th>
                         <th className="text-right px-3 py-2">Compare</th>
                         <th className="text-right px-3 py-2">Stock</th>
@@ -657,8 +621,6 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                           <tr key={variant.id} className="border-t border-line">
                             <td className="px-3 py-2 font-mono text-ink/40">{variant.sku}</td>
                             <td className="px-3 py-2">{variant.size}</td>
-                            <td className="px-3 py-2">{variant.material}</td>
-                            <td className="px-3 py-2">{variant.frame}</td>
                             <td className="px-3 py-2 text-right">
                               <input
                                 type="number"
@@ -706,14 +668,12 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                               <button
                                 type="button"
                                 onClick={() => updateVariant(realIdx, 'isActive', !variant.isActive)}
-                                className={`w-8 h-5 rounded-full transition-colors relative ${
-                                  variant.isActive ? 'bg-emerald-500' : 'bg-line'
-                                }`}
+                                className={`w-8 h-5 rounded-full transition-colors relative ${variant.isActive ? 'bg-emerald-500' : 'bg-line'
+                                  }`}
                               >
                                 <span
-                                  className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${
-                                    variant.isActive ? 'left-3.5' : 'left-0.5'
-                                  }`}
+                                  className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${variant.isActive ? 'left-3.5' : 'left-0.5'
+                                    }`}
                                 />
                               </button>
                             </td>

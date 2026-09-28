@@ -106,7 +106,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
       {/* Fulfillment Progress Timeline */}
       {!isCancelled ? (
-        <div className="border border-line rounded-sm p-6 bg-white mb-8">
+        <div className="border border-line rounded-sm p-6 bg-surface mb-8">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-ink/50 mb-6">
             Fulfillment Progress
           </h2>
@@ -164,7 +164,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
       )}
 
       {/* Items Breakdown */}
-      <div className="border border-line rounded-sm overflow-hidden bg-white mb-8">
+      <div className="border border-line rounded-sm overflow-hidden bg-surface mb-8">
         <div className="px-6 py-4 border-b border-line bg-line/20">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-ink/60">
             Items Ordered ({order.items.length})
@@ -208,7 +208,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
       {/* Order Info Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Delivery Address */}
-        <div className="border border-line rounded-sm p-5 bg-white">
+        <div className="border border-line rounded-sm p-5 bg-surface">
           <div className="flex items-center gap-2 mb-3 text-xs font-semibold uppercase tracking-wider text-ink/60">
             <MapPin size={14} className="text-accent" />
             <span>Shipping Address</span>
@@ -229,7 +229,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         </div>
 
         {/* Payment & Summary */}
-        <div className="border border-line rounded-sm p-5 bg-white">
+        <div className="border border-line rounded-sm p-5 bg-surface">
           <div className="flex items-center gap-2 mb-3 text-xs font-semibold uppercase tracking-wider text-ink/60">
             <CreditCard size={14} className="text-accent" />
             <span>Payment Breakdown</span>

@@ -30,9 +30,7 @@ const CartItemRow = memo(function CartItemRow({
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{item.variant.product.title}</p>
-        <p className="text-xs text-ink/50 mt-0.5">
-          {item.variant.size} · {item.variant.material} · {item.variant.frame}
-        </p>
+        <p className="text-xs text-ink/50 mt-0.5">{item.variant.size} · Archival Matte</p>
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center border border-line rounded-sm">
             <button
@@ -99,7 +97,7 @@ function CartDrawerContent() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-paper z-50 flex flex-col shadow-2xl"
+            className="fixed right-0 top-0 h-full w-full sm:w-[420px] glass z-50 flex flex-col shadow-2xl border-l border-line"
             role="dialog"
             aria-label="Shopping cart"
           >
@@ -112,9 +110,9 @@ function CartDrawerContent() {
 
             {items.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-                <p className="text-ink/60">Your cart is empty.</p>
+                <p className="text-ink/60">YOUR WALL IS WAITING.</p>
                 <Link href="/shop" onClick={closeCart} className="btn btn-primary mt-5">
-                  Browse posters
+                  SHOP POSTERS
                 </Link>
               </div>
             ) : (
@@ -126,7 +124,7 @@ function CartDrawerContent() {
                 <div className="border-t border-line px-6 py-5 space-y-2">
                   {summary && summary.shippingTotal > 0 && (
                     <p className="text-xs text-ink/60 bg-line/40 rounded-sm px-3 py-2">
-                      Add {formatINR(Math.max(0, 149900 - summary.subtotal))} more for free shipping.
+                      Add {formatINR(Math.max(0, 50000 - summary.subtotal))} more for free shipping.
                     </p>
                   )}
                   <div className="flex justify-between text-sm">

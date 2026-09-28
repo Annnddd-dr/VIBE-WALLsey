@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { randomUUID } from 'crypto';
 
-const GUEST_COOKIE = 'posterraxx_guest_id';
+const GUEST_COOKIE = 'vibewallsey_guest_id';
 
 export function getOrSetGuestId(): string {
   const store = cookies();

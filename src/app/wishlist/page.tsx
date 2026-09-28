@@ -56,17 +56,17 @@ export default function WishlistPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 border border-line rounded-sm bg-white max-w-md mx-auto p-8">
+        <div className="text-center py-20 border border-line rounded-sm bg-surface/60 max-w-md mx-auto p-8">
           <div className="w-12 h-12 rounded-full bg-line/30 flex items-center justify-center mx-auto mb-4 text-ink/30">
             <Heart size={20} />
           </div>
-          <h2 className="text-lg font-display text-ink mb-1">Your wishlist is empty</h2>
+          <h2 className="text-lg font-display text-ink mb-1">SAVE WHAT SPEAKS TO YOU.</h2>
           <p className="text-xs text-ink/50 leading-relaxed mb-6">
             Tap the heart on any poster while browsing to save it here for later.
           </p>
           <Link href="/shop" className="btn btn-primary text-xs gap-2 inline-flex">
             <ShoppingBag size={14} />
-            Explore Store <ArrowRight size={13} />
+            EXPLORE POSTERS <ArrowRight size={13} />
           </Link>
         </div>
       )}

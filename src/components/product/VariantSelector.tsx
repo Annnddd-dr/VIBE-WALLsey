@@ -3,33 +3,31 @@
 import { useMemo, useState } from 'react';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { useCart } from '@/components/cart/CartContext';
-import { SIZE_LABELS, MATERIAL_LABELS, FRAME_LABELS } from '@/types';
-import { PosterSize, PosterMaterial, PosterFrame } from '@prisma/client';
+import { SIZE_LABELS } from '@/types';
+import { PosterSize } from '@prisma/client';
 
 interface VariantLite {
   id: string;
   size: PosterSize;
-  material: PosterMaterial;
-  frame: PosterFrame;
   price: number;
   compareAtPrice: number | null;
   stock: number;
 }
 
 export function VariantSelector({ variants }: { variants: VariantLite[] }) {
-  const sizes = Array.from(new Set(variants.map((v) => v.size)));
-  const materials = Array.from(new Set(variants.map((v) => v.material)));
-  const frames = Array.from(new Set(variants.map((v) => v.frame)));
+  // Sizes only — one finish per size (premium matte, unframed).
+  const sizeOrder = ['POLAROID', 'A6', 'A5', 'A4', 'A3'];
+  const sizes = Array.from(new Set(variants.map((v) => v.size))).sort(
+    (a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b)
+  );
 
   const [size, setSize] = useState(sizes[0]);
-  const [material, setMaterial] = useState(materials[0]);
-  const [frame, setFrame] = useState(frames[0]);
   const [qty, setQty] = useState(1);
   const { addItem, openCart, loading } = useCart();
 
   const selected = useMemo(
-    () => variants.find((v) => v.size === size && v.material === material && v.frame === frame) ?? null,
-    [variants, size, material, frame]
+    () => variants.find((v) => v.size === size) ?? null,
+    [variants, size]
   );
 
   const outOfStock = selected ? selected.stock <= 0 : true;
@@ -55,36 +53,6 @@ export function VariantSelector({ variants }: { variants: VariantLite[] }) {
       </div>
 
       <div>
-        <p className="text-xs uppercase tracking-widest text-ink/50 mb-2">Material</p>
-        <div className="flex flex-wrap gap-2">
-          {materials.map((m) => (
-            <button
-              key={m}
-              onClick={() => setMaterial(m)}
-              className={`px-3 py-2 text-sm border rounded-sm ${m === material ? 'border-ink bg-ink text-paper' : 'border-line hover:border-ink'}`}
-            >
-              {MATERIAL_LABELS[m]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <p className="text-xs uppercase tracking-widest text-ink/50 mb-2">Frame</p>
-        <div className="flex flex-wrap gap-2">
-          {frames.map((f) => (
-            <button
-              key={f}
-              onClick={() => setFrame(f)}
-              className={`px-3 py-2 text-sm border rounded-sm ${f === frame ? 'border-ink bg-ink text-paper' : 'border-line hover:border-ink'}`}
-            >
-              {FRAME_LABELS[f]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
         <p className="text-xs uppercase tracking-widest text-ink/50 mb-2">Quantity</p>
         <div className="flex items-center border border-line rounded-sm w-fit">
           <button className="px-3 py-2" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
@@ -94,9 +62,9 @@ export function VariantSelector({ variants }: { variants: VariantLite[] }) {
       </div>
 
       {!selected ? (
-        <p className="text-sm text-accent">This combination isn&apos;t available.</p>
+        <p className="text-sm text-accent">This size isn&apos;t available.</p>
       ) : outOfStock ? (
-        <p className="text-sm text-accent">Out of stock in this combination.</p>
+        <p className="text-sm text-accent">Out of stock in this size.</p>
       ) : null}
 
       <div className="flex flex-col sm:flex-row gap-3">

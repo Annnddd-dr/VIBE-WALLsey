@@ -4,9 +4,7 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 
-const SIZES = ['A5', 'A4', 'A3', 'A2', 'A1'];
-const MATERIALS = ['MATTE', 'GLOSSY', 'TEXTURED'];
-const FRAMES = ['NONE', 'BLACK', 'WHITE', 'WOOD'];
+const SIZES = ['POLAROID', 'A6', 'A5', 'A4', 'A3'];
 const SORTS = [
   { value: 'featured', label: 'Featured' },
   { value: 'newest', label: 'Newest' },
@@ -58,33 +56,12 @@ export function ShopFilters({ categories, activeParams }: { categories: { slug: 
         <div className="flex flex-wrap gap-2">
           {SIZES.map((s) => (
             <button key={s} onClick={() => setParam('size', activeParams.size === s ? undefined : s)} className={`px-3 py-1.5 text-xs border rounded-sm ${activeParams.size === s ? 'border-ink bg-ink text-paper' : 'border-line'}`}>
-              {s}
+              {s === 'POLAROID' ? 'Polaroid' : s}
             </button>
           ))}
         </div>
       </div>
 
-      <div>
-        <p className="text-xs uppercase tracking-widest text-ink/50 mb-3">Material</p>
-        <div className="flex flex-wrap gap-2">
-          {MATERIALS.map((m) => (
-            <button key={m} onClick={() => setParam('material', activeParams.material === m ? undefined : m)} className={`px-3 py-1.5 text-xs border rounded-sm capitalize ${activeParams.material === m ? 'border-ink bg-ink text-paper' : 'border-line'}`}>
-              {m.toLowerCase()}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <p className="text-xs uppercase tracking-widest text-ink/50 mb-3">Frame</p>
-        <div className="flex flex-wrap gap-2">
-          {FRAMES.map((f) => (
-            <button key={f} onClick={() => setParam('frame', activeParams.frame === f ? undefined : f)} className={`px-3 py-1.5 text-xs border rounded-sm capitalize ${activeParams.frame === f ? 'border-ink bg-ink text-paper' : 'border-line'}`}>
-              {f.toLowerCase()}
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 

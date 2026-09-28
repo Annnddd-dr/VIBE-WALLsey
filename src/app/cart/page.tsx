@@ -27,7 +27,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="container-page py-20">
-        <EmptyState title="Your cart is empty" description="Find something for your walls." ctaLabel="Browse posters" ctaHref="/shop" />
+        <EmptyState title="YOUR WALL IS WAITING." description="Add something you love." ctaLabel="SHOP POSTERS" ctaHref="/shop" />
       </div>
     );
   }
@@ -48,7 +48,7 @@ export default function CartPage() {
               </div>
               <div className="flex-1">
                 <p className="font-medium">{item.variant.product.title}</p>
-                <p className="text-sm text-ink/50 mt-1">{item.variant.size} · {item.variant.material} · {item.variant.frame}</p>
+                <p className="text-sm text-ink/50 mt-1">{item.variant.size} · Archival Matte</p>
                 <p className="text-sm mt-1">{formatINR(item.variant.price)} each</p>
                 <div className="flex items-center gap-4 mt-3">
                   <div className="flex items-center border border-line rounded-sm">
@@ -85,7 +85,7 @@ export default function CartPage() {
             </div>
           </div>
           <Link href="/checkout" className="btn btn-accent w-full mt-6">Go to checkout</Link>
-          <p className="text-xs text-ink/40 mt-3">Free shipping on orders above ₹1,499.</p>
+          <p className="text-xs text-ink/40 mt-3">Free shipping on orders above ₹500.</p>
         </div>
       </div>
     </div>

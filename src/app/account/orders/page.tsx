@@ -31,7 +31,7 @@ export default async function OrdersPage() {
           <Link
             key={o.id}
             href={`/account/orders/${o.id}`}
-            className="block border border-line rounded-sm p-5 hover:border-ink/40 transition-colors bg-white group"
+            className="block border border-line rounded-sm p-5 hover:border-ink/40 transition-colors bg-surface group"
           >
             <div className="flex justify-between items-start">
               <div>

@@ -72,7 +72,7 @@ export function ReviewForm({
   }
 
   return (
-    <div className="border border-line rounded-sm p-5 bg-white">
+    <div className="border border-line rounded-sm p-5 bg-surface">
       {!open ? (
         <button
           onClick={() => setOpen(true)}

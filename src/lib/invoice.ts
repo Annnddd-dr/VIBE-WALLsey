@@ -93,8 +93,8 @@ export function generateInvoiceHTML(order: InvoiceOrderData): string {
 
     <div class="header">
       <div>
-        <div class="brand">POSTER<span>raxx</span></div>
-        <p style="color: #666; font-size: 11px; margin-top: 4px;">POSTERraxx Design Studios India Pvt. Ltd.</p>
+        <div class="brand">VIBEWALL<span>seyy</span></div>
+        <p style="color: #666; font-size: 11px; margin-top: 4px;">VIBEWALLseyy Design Studios India Pvt. Ltd.</p>
         <p style="color: #666; font-size: 11px;">100ft Road, Indiranagar, Bangalore, Karnataka - 560038</p>
         <p style="color: #666; font-size: 11px;">GSTIN: <strong>29AABCU9603R1ZM</strong> · State: Karnataka (29)</p>
       </div>
@@ -204,8 +204,8 @@ export function generateInvoiceHTML(order: InvoiceOrderData): string {
 
     <div class="footer">
       <div>
-        <p>Thank you for choosing POSTERraxx to elevate your space.</p>
-        <p>For questions or support, reach us at orders@posterraxx.com</p>
+        <p>Thank you for choosing VIBEWALLseyy to elevate your space.</p>
+        <p>For questions or support, reach us at orders@vibewallsey.com</p>
       </div>
       <div style="text-align: right;">
         <p>This is a computer-generated tax invoice. No physical signature is required.</p>

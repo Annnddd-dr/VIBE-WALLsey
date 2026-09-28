@@ -14,7 +14,7 @@ async function send(to: string, subject: string, html: string) {
     return { skipped: true };
   }
   return client.emails.send({
-    from: process.env.EMAIL_FROM ?? 'POSTERraxx <orders@posterraxx.com>',
+    from: process.env.EMAIL_FROM ?? 'VIBEWALLseyy <orders@vibewallsey.com>',
     to,
     subject,
     html,
@@ -24,10 +24,10 @@ async function send(to: string, subject: string, html: string) {
 function shell(title: string, bodyHtml: string) {
   return `<!DOCTYPE html><html><body style="margin:0;background:#FAFAF8;font-family:Helvetica,Arial,sans-serif;color:#141414;">
     <div style="max-width:520px;margin:0 auto;padding:40px 24px;">
-      <p style="letter-spacing:2px;font-size:12px;text-transform:uppercase;color:#C9491C;font-weight:600;">POSTERraxx</p>
+      <p style="letter-spacing:2px;font-size:12px;text-transform:uppercase;color:#3E7C4F;font-weight:600;">VIBEWALLseyy</p>
       <h1 style="font-size:22px;margin:12px 0 20px;">${title}</h1>
       ${bodyHtml}
-      <p style="margin-top:40px;font-size:12px;color:#8a8a86;">POSTERraxx · Premium wall posters, made in India.</p>
+      <p style="margin-top:40px;font-size:12px;color:#8a8a86;">VIBEWALLseyy · Premium wall posters, made in India.</p>
     </div>
   </body></html>`;
 }
@@ -36,7 +36,7 @@ export async function sendVerificationEmail(email: string, token: string) {
   const link = `${SITE}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
   return send(
     email,
-    'Verify your POSTERraxx account',
+    'Verify your VIBEWALLseyy account',
     shell('Confirm your email', `<p>Click below to verify your account and start shopping.</p>
       <p><a href="${link}" style="display:inline-block;background:#141414;color:#fff;padding:12px 24px;text-decoration:none;border-radius:4px;">Verify email</a></p>`)
   );
@@ -46,7 +46,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   const link = `${SITE}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
   return send(
     email,
-    'Reset your POSTERraxx password',
+    'Reset your VIBEWALLseyy password',
     shell('Reset your password', `<p>Click below to set a new password. This link expires in 1 hour.</p>
       <p><a href="${link}" style="display:inline-block;background:#141414;color:#fff;padding:12px 24px;text-decoration:none;border-radius:4px;">Reset password</a></p>`)
   );

@@ -3,26 +3,18 @@ import { getServerSession } from 'next-auth';
 import { authOptions, hasRole } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { PosterSize, PosterMaterial, PosterFrame } from '@prisma/client';
+import { PosterSize } from '@prisma/client';
 
-// --- Variant generation constants (mirroring seed.ts) ---
+// --- Variant generation constants (mirroring seed.ts / official price sheet) ---
+// Base price entered by the admin = the A5 price; other sizes scale per the
+// official sheet (Polaroid ₹10 · A6 ₹15 · A5 ₹30 · A4 ₹40 · A3 ₹60).
+// One finish per size — materials and frames are no longer part of the catalog.
 const SIZES: { size: PosterSize; mult: number }[] = [
+  { size: 'POLAROID', mult: 1 / 3 },
+  { size: 'A6', mult: 0.5 },
   { size: 'A5', mult: 1 },
-  { size: 'A4', mult: 1.5 },
-  { size: 'A3', mult: 2.2 },
-  { size: 'A2', mult: 3.2 },
-  { size: 'A1', mult: 4.5 },
-];
-const MATERIALS: { material: PosterMaterial; addon: number }[] = [
-  { material: 'MATTE', addon: 0 },
-  { material: 'GLOSSY', addon: 5000 },
-  { material: 'TEXTURED', addon: 8000 },
-];
-const FRAMES: { frame: PosterFrame; addon: number }[] = [
-  { frame: 'NONE', addon: 0 },
-  { frame: 'BLACK', addon: 30000 },
-  { frame: 'WHITE', addon: 30000 },
-  { frame: 'WOOD', addon: 45000 },
+  { size: 'A4', mult: 4 / 3 },
+  { size: 'A3', mult: 2 },
 ];
 
 function slugify(s: string) {
@@ -111,34 +103,28 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // 2. Generate variants (size × material × frame)
+      // 2. Generate variants — one per size
       for (const s of SIZES) {
-        for (const m of MATERIALS) {
-          for (const f of FRAMES) {
-            const price = Math.round(data.basePricePaise * s.mult) + m.addon + f.addon;
-            const compareAtPrice = data.compareAtPricePaise
-              ? Math.round(data.compareAtPricePaise * s.mult) + m.addon + f.addon
-              : null;
-            const sku = `${slug}-${s.size}-${m.material}-${f.frame}`.toUpperCase();
+        const price = Math.round(data.basePricePaise * s.mult);
+        const compareAtPrice = data.compareAtPricePaise
+          ? Math.round(data.compareAtPricePaise * s.mult)
+          : null;
+        const sku = `${slug}-${s.size}`.toUpperCase();
 
-            const variant = await tx.productVariant.create({
-              data: {
-                productId: product.id,
-                size: s.size,
-                material: m.material,
-                frame: f.frame,
-                sku,
-                price,
-                compareAtPrice,
-                weightGrams: 150 + Math.round(s.mult * 80),
-              },
-            });
+        const variant = await tx.productVariant.create({
+          data: {
+            productId: product.id,
+            size: s.size,
+            sku,
+            price,
+            compareAtPrice,
+            weightGrams: 150 + Math.round(s.mult * 80),
+          },
+        });
 
-            await tx.inventory.create({
-              data: { variantId: variant.id, stock: data.defaultStock, reserved: 0 },
-            });
-          }
-        }
+        await tx.inventory.create({
+          data: { variantId: variant.id, stock: data.defaultStock, reserved: 0 },
+        });
       }
 
       return product;

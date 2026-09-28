@@ -8,6 +8,7 @@ import { useCart } from '@/components/cart/CartContext';
 import { formatINR } from '@/lib/utils';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useToast } from '@/components/ui/Toast';
+import { LocationPicker } from '@/components/checkout/LocationPicker';
 
 declare global {
   interface Window { Razorpay: any }
@@ -46,6 +47,12 @@ function formReducer(state: FormState, action: FormAction): FormState {
   return { ...state, [action.type]: action.payload };
 }
 
+/** Batch-dispatch several field updates in one React commit. */
+function dispatchMultiple(actions: FormAction[]) {
+  actions.forEach(dispatchRef.current);
+}
+const dispatchRef: { current: (a: FormAction) => void } = { current: () => {} };
+
 export default function CheckoutPage() {
   const { items, summary, refresh } = useCart();
   const { data: session } = useSession();
@@ -56,6 +63,7 @@ export default function CheckoutPage() {
     ...initialFormState,
     email: session?.user?.email ?? '',
   });
+  dispatchRef.current = dispatch;
   const [placing, setPlacing] = useState(false);
 
   if (items.length === 0) {
@@ -110,7 +118,7 @@ export default function CheckoutPage() {
         key: data.razorpayKeyId,
         amount: data.amount,
         currency: 'INR',
-        name: 'POSTERraxx',
+        name: 'VIBEWALLseyy',
         description: `Order ${data.orderNumber}`,
         order_id: data.razorpayOrderId,
         prefill: { email: formState.email, contact: formState.phone, name: formState.name },
@@ -168,6 +176,26 @@ export default function CheckoutPage() {
           </div>
 
           <h3 className="text-sm font-semibold mb-4">2. Shipping address</h3>
+          <div className="mb-5">
+            <LocationPicker
+              onResolved={(p) =>
+                dispatchMultiple([
+                  { type: 'line1', payload: p.line1 },
+                  { type: 'city', payload: p.city },
+                  { type: 'state', payload: p.state },
+                  { type: 'pincode', payload: p.pincode },
+                ])
+              }
+              onClear={() =>
+                dispatchMultiple([
+                  { type: 'line1', payload: '' },
+                  { type: 'city', payload: '' },
+                  { type: 'state', payload: '' },
+                  { type: 'pincode', payload: '' },
+                ])
+              }
+            />
+          </div>
           <div className="space-y-4 mb-8">
             <input 
               className="input" 

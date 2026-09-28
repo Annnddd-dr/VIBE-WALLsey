@@ -5,24 +5,24 @@ const COLUMNS = [
     title: 'Shop',
     links: [
       { href: '/shop', label: 'All Posters' },
-      { href: '/shop?sort=newest', label: 'New Arrivals' },
-      { href: '/shop?sort=bestselling', label: 'Best Sellers' },
-      { href: '/custom', label: 'Custom Posters' },
+      { href: '/shop?sort=bestselling', label: 'People Are Loving' },
+      { href: '/shop?sort=newest', label: 'Latest Prints' },
     ],
   },
   {
-    title: 'Company',
+    title: 'Orders',
     links: [
-      { href: '/about', label: 'About' },
+      { href: '/track-order', label: 'Track Order' },
+      { href: '/account/orders', label: 'My Orders' },
+      { href: '/account', label: 'Account' },
       { href: '/contact', label: 'Contact' },
-      { href: '/faq', label: 'FAQ' },
     ],
   },
   {
-    title: 'Support',
+    title: 'Policies',
     links: [
-      { href: '/shipping', label: 'Shipping' },
-      { href: '/returns', label: 'Returns' },
+      { href: '/shipping', label: 'Shipping Policy' },
+      { href: '/returns', label: 'Refund Policy' },
       { href: '/privacy', label: 'Privacy' },
       { href: '/terms', label: 'Terms' },
     ],
@@ -31,40 +31,49 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line mt-24 bg-white">
+    <footer className="relative z-10 border-t border-line mt-24 bg-surface/60 backdrop-blur-sm">
       <div className="container-page py-16 grid grid-cols-2 lg:grid-cols-5 gap-10">
         <div className="col-span-2">
           <div className="font-display text-xl">
-            POSTER<span className="text-accent">raxx</span>
+            VIBEWALL<span className="text-accent">seyy</span>
           </div>
           <p className="mt-3 text-sm text-ink/60 max-w-xs">
             Premium wall posters, printed and shipped across India. Art that changes your walls.
           </p>
-          <p className="mt-4 text-sm text-ink/60">support@posterraxx.com</p>
+          <p className="mt-4 text-sm text-ink/60">support@vibewallsey.com</p>
         </div>
+
         {COLUMNS.map((col) => (
           <div key={col.title}>
             <p className="eyebrow mb-4">{col.title}</p>
             <ul className="space-y-2">
               {col.links.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-ink/70 hover:text-ink">
+                  <Link href={l.href} className="text-sm text-ink/70 hover:text-ink transition-colors">
                     {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
+            {col.title === 'Policies' && (
+              <ul className="space-y-2 mt-6">
+                <li>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-ink/70 hover:text-ink transition-colors"
+                  >
+                    Instagram
+                  </a>
+                </li>
+              </ul>
+            )}
           </div>
         ))}
-        <div>
-          <p className="eyebrow mb-4">Follow</p>
-          <ul className="space-y-2">
-            <li><a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-sm text-ink/70 hover:text-ink">Instagram</a></li>
-          </ul>
-        </div>
       </div>
       <div className="border-t border-line py-5 text-center text-xs text-ink/40">
-        © {new Date().getFullYear()} POSTERraxx. All rights reserved.
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> VIBEWALLseyy. All rights reserved.
       </div>
     </footer>
   );

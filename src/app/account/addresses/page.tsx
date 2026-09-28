@@ -33,7 +33,7 @@ export default async function AddressesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-line rounded-sm bg-white p-8">
+        <div className="text-center py-16 border border-line rounded-sm bg-surface p-8">
           <div className="w-12 h-12 rounded-full bg-line/30 flex items-center justify-center mx-auto mb-3 text-ink/30">
             <MapPin size={20} />
           </div>

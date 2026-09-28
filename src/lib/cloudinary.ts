@@ -17,7 +17,7 @@ export interface UploadResult {
  */
 export async function uploadImage(
   buffer: Buffer,
-  folder = 'posterraxx/products'
+  folder = 'vibewallsey/products'
 ): Promise<UploadResult> {
   if (
     !process.env.CLOUDINARY_CLOUD_NAME ||

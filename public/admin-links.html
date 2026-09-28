@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POSTERraxx Admin — Quick Links</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #fafaf8;
+      color: #141414;
+      display: flex;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+    .container { max-width: 900px; margin: 0 auto; width: 100%; }
+    header { margin-bottom: 40px; }
+    .eyebrow { color: #C9491C; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+    h1 { font-size: 34px; margin-top: 8px; }
+    p.sub { color: #666; margin-top: 8px; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e3de;
+      border-radius: 8px;
+      padding: 22px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .15s, transform .15s;
+      display: block;
+    }
+    .card:hover { border-color: #C9491C; transform: translateY(-2px); }
+    .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .card p { font-size: 13px; color: #666; }
+    .card code {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      color: #8a8a86;
+      background: #f5f4f1;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    footer { margin-top: 48px; color: #8a8a86; font-size: 12px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <p class="eyebrow">POSTERraxx</p>
+      <h1>Admin Quick Links</h1>
+      <p class="sub">Jump straight into the management dashboard. Regular storefront links below.</p>
+    </header>
+
+    <div class="grid">
+      <a class="card" href="/admin/orders">
+        <h2>📦 Orders Dashboard</h2>
+        <p>Search, filter, update statuses, manage shipments & tracking.</p>
+        <code>/admin/orders</code>
+      </a>
+      <a class="card" href="/admin/products">
+        <h2>🖼️ Products</h2>
+        <p>Create and edit products, variants, pricing & inventory.</p>
+        <code>/admin/products</code>
+      </a>
+      <a class="card" href="/admin/coupons">
+        <h2>🏷️ Coupons</h2>
+        <p>Manage discounts, usage limits and expiry.</p>
+        <code>/admin/coupons</code>
+      </a>
+      <a class="card" href="/admin/customers">
+        <h2>👥 Customers</h2>
+        <p>Customer directory and profiles.</p>
+        <code>/admin/customers</code>
+      </a>
+      <a class="card" href="/admin/analytics">
+        <h2>📊 Analytics</h2>
+        <p>Revenue, traffic and conversion metrics.</p>
+        <code>/admin/analytics</code>
+      </a>
+      <a class="card" href="/">
+        <h2>🛍️ Storefront</h2>
+        <p>Preview the public store as a customer would see it.</p>
+        <code>/</code>
+      </a>
+      <a class="card" href="/account/orders">
+        <h2>🧾 My Orders (Customer)</h2>
+        <p>Customer-side order history and tracking.</p>
+        <code>/account/orders</code>
+      </a>
+      <a class="card" href="/login">
+        <h2>🔐 Login</h2>
+        <p>Admin / customer sign in portal.</p>
+        <code>/login</code>
+      </a>
+    </div>
+
+    <footer>For a real time HTML file — run <code>npm run dev</code> and open <code>http://localhost:3000</code>.</footer>
+  </div>
+</body>
+</html>

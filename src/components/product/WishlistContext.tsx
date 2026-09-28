@@ -12,7 +12,7 @@ interface WishlistContextValue {
 
 const WishlistContext = createContext<WishlistContextValue | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'posterraxx_wishlist';
+const LOCAL_STORAGE_KEY = 'vibewallsey_wishlist';
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();

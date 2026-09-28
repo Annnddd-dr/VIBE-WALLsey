@@ -87,6 +87,6 @@ export function estimateShippingForPincode(pincode: string): ShippingEstimateRes
     deliveryRange,
     codAvailable: true,
     courier: location.zone === 'METRO' ? 'BlueDart Express Air' : 'Delhivery Surface Premium',
-    freeShippingThreshold: 149900, // ₹1,499 in paise
+    freeShippingThreshold: 50000, // ₹500 in paise
   };
 }

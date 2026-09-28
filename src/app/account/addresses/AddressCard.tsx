@@ -42,7 +42,7 @@ export function AddressCard({ address }: { address: AddressData & { id: string }
 
   return (
     <div
-      className={`border rounded-sm p-5 relative transition-all bg-white ${
+      className={`border rounded-sm p-5 relative transition-all bg-surface ${
         address.isDefault ? 'border-ink ring-1 ring-ink/10' : 'border-line'
       }`}
     >

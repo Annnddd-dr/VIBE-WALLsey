@@ -56,7 +56,7 @@ export default function AboutPage() {
         {/* Section 3: Pillars Grid */}
         <section className="border-t border-line pt-12">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="border border-line rounded-sm p-6 bg-white">
+            <div className="border border-line rounded-sm p-6 bg-surface">
               <Layers size={22} className="text-accent mb-3" />
               <h3 className="text-base font-display text-ink mb-1.5">300 GSM Stocks</h3>
               <p className="text-xs text-ink/60 leading-relaxed">
@@ -64,7 +64,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="border border-line rounded-sm p-6 bg-white">
+            <div className="border border-line rounded-sm p-6 bg-surface">
               <ShieldCheck size={22} className="text-accent mb-3" />
               <h3 className="text-base font-display text-ink mb-1.5">Crash-Proof Transit</h3>
               <p className="text-xs text-ink/60 leading-relaxed">
@@ -72,11 +72,11 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="border border-line rounded-sm p-6 bg-white">
+            <div className="border border-line rounded-sm p-6 bg-surface">
               <Compass size={22} className="text-accent mb-3" />
               <h3 className="text-base font-display text-ink mb-1.5">Curated Collections</h3>
               <p className="text-xs text-ink/60 leading-relaxed">
-                Spanning Japanese Anime, Cinema Noir, F1 Racing, Bauhaus Minimalist, and bespoke custom prints.
+                Spanning Japanese Anime, Cinema Noir, F1 Racing, and Bauhaus Minimalist.
               </p>
             </div>
           </div>
@@ -91,9 +91,6 @@ export default function AboutPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/shop" className="btn btn-accent text-xs gap-2">
               Explore Catalog <ArrowRight size={14} />
-            </Link>
-            <Link href="/custom" className="btn btn-ghost text-xs text-paper border-paper/30 hover:border-paper">
-              Create Custom Print
             </Link>
           </div>
         </section>

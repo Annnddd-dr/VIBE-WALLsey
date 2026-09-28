@@ -91,15 +91,27 @@ export default function AdminAnalyticsPage() {
           <h1 className="text-2xl font-display">Analytics & Performance</h1>
           <p className="text-xs text-ink/50 mt-1">Real-time store metrics over the last 30 days</p>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-ink/60 bg-line/40 px-3 py-1.5 rounded-sm border border-line">
-          <Calendar size={13} className="text-accent" />
-          Last 30 Days
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-xs text-ink/80 bg-surface px-3 py-1.5 rounded-sm border border-line focus-within:border-ink/40 transition-colors">
+            <Calendar size={13} className="text-accent" />
+            <input 
+              type="date" 
+              className="bg-transparent border-none outline-none text-ink cursor-pointer"
+              defaultValue={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+            />
+            <span className="text-ink/40">—</span>
+            <input 
+              type="date" 
+              className="bg-transparent border-none outline-none text-ink cursor-pointer"
+              defaultValue={new Date().toISOString().split('T')[0]}
+            />
+          </div>
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="border border-line rounded-sm p-5 bg-white shadow-sm">
+        <div className="border border-line rounded-sm p-5 bg-surface shadow-sm">
           <div className="flex items-center justify-between text-ink/40 mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider">30-Day Revenue</span>
             <TrendingUp size={16} className="text-accent" />
@@ -108,7 +120,7 @@ export default function AdminAnalyticsPage() {
           <p className="text-[11px] text-ink/40 mt-1">{metrics.totalOrders} paid orders</p>
         </div>
 
-        <div className="border border-line rounded-sm p-5 bg-white shadow-sm">
+        <div className="border border-line rounded-sm p-5 bg-surface shadow-sm">
           <div className="flex items-center justify-between text-ink/40 mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider">Average Order (AOV)</span>
             <CreditCard size={16} className="text-accent" />
@@ -117,7 +129,7 @@ export default function AdminAnalyticsPage() {
           <p className="text-[11px] text-ink/40 mt-1">Per transaction average</p>
         </div>
 
-        <div className="border border-line rounded-sm p-5 bg-white shadow-sm">
+        <div className="border border-line rounded-sm p-5 bg-surface shadow-sm">
           <div className="flex items-center justify-between text-ink/40 mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Orders</span>
             <ShoppingBag size={16} className="text-accent" />
@@ -126,7 +138,7 @@ export default function AdminAnalyticsPage() {
           <p className="text-[11px] text-ink/40 mt-1">Dispatched & fulfillment</p>
         </div>
 
-        <div className="border border-line rounded-sm p-5 bg-white shadow-sm">
+        <div className="border border-line rounded-sm p-5 bg-surface shadow-sm">
           <div className="flex items-center justify-between text-ink/40 mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider">Repeat Rate</span>
             <Users size={16} className="text-accent" />
@@ -137,7 +149,7 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* Revenue Trend Area Chart */}
-      <div className="border border-line rounded-sm p-6 bg-white shadow-sm">
+      <div className="border border-line rounded-sm p-6 bg-surface shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-sm font-semibold text-ink uppercase tracking-wider">
@@ -213,7 +225,7 @@ export default function AdminAnalyticsPage() {
       {/* Grid: Best Sellers & Category Shares */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Products */}
-        <div className="border border-line rounded-sm p-6 bg-white shadow-sm">
+        <div className="border border-line rounded-sm p-6 bg-surface shadow-sm">
           <div className="flex items-center gap-2 mb-5">
             <Flame size={16} className="text-accent" />
             <h2 className="text-sm font-semibold text-ink uppercase tracking-wider">
@@ -255,7 +267,7 @@ export default function AdminAnalyticsPage() {
         </div>
 
         {/* Category Share */}
-        <div className="border border-line rounded-sm p-6 bg-white shadow-sm">
+        <div className="border border-line rounded-sm p-6 bg-surface shadow-sm">
           <div className="flex items-center gap-2 mb-5">
             <PieChart size={16} className="text-accent" />
             <h2 className="text-sm font-semibold text-ink uppercase tracking-wider">

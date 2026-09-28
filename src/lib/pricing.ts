@@ -26,7 +26,7 @@ export interface PriceSummary {
   appliedCoupon: Coupon | null;
 }
 
-const FREE_SHIPPING_THRESHOLD = Number(process.env.FREE_SHIPPING_THRESHOLD_INR ?? 1499) * 100;
+const FREE_SHIPPING_THRESHOLD = Number(process.env.FREE_SHIPPING_THRESHOLD_INR ?? 500) * 100;
 const FLAT_SHIPPING_RATE = Number(process.env.FLAT_SHIPPING_RATE_INR ?? 99) * 100;
 
 export class PricingError extends Error {}
@@ -53,7 +53,7 @@ export async function priceCart(
 
     const available = (variant.inventory?.stock ?? 0) - (variant.inventory?.reserved ?? 0);
     if (available < req.quantity) {
-      throw new PricingError(`Insufficient stock for ${variant.product.title} (${variant.size}/${variant.material}/${variant.frame}).`);
+      throw new PricingError(`Insufficient stock for ${variant.product.title} (${variant.size}).`);
     }
 
     const lineTotal = variant.price * req.quantity;
@@ -62,7 +62,7 @@ export async function priceCart(
     lines.push({
       variantId: variant.id,
       productTitle: variant.product.title,
-      variantLabel: `${variant.size} / ${variant.material} / ${variant.frame}`,
+      variantLabel: `${variant.size} · Archival Matte`,
       quantity: req.quantity,
       unitPrice: variant.price,
       lineTotal,

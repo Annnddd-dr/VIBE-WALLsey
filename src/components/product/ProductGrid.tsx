@@ -3,7 +3,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 
 export function ProductGrid({ products }: { products: ProductCardData[] }) {
   if (products.length === 0) {
-    return <EmptyState title="No products found" description="Try adjusting your filters or search." />;
+    return <EmptyState title="NO POSTERS FOUND" description="Try a different search or category." />;
   }
 
   return (

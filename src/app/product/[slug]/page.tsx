@@ -10,7 +10,6 @@ import { Rating } from '@/components/ui/Rating';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { PRODUCT_CARD_INCLUDE, toCardData } from '@/lib/catalog';
 import { ReviewForm } from '@/components/product/ReviewForm';
-import { RoomVisualizer } from '@/components/product/RoomVisualizer';
 import { PincodeEstimator } from '@/components/product/PincodeEstimator';
 
 interface Props { params: { slug: string } }
@@ -50,8 +49,6 @@ export default async function ProductPage({ params }: Props) {
   const variantLites = product.variants.map((v) => ({
     id: v.id,
     size: v.size,
-    material: v.material,
-    frame: v.frame,
     price: v.price,
     compareAtPrice: v.compareAtPrice,
     stock: (v.inventory?.stock ?? 0) - (v.inventory?.reserved ?? 0),
@@ -78,7 +75,7 @@ export default async function ProductPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       <nav className="text-xs text-ink/50 mb-8">
-        <a href="/shop" className="hover:text-ink">Shop</a> / <a href={`/collections/${product.category.slug}`} className="hover:text-ink">{product.category.name}</a> / <span className="text-ink">{product.title}</span>
+        <a href="/shop" className="hover:text-ink">Shop</a> / <a href={`/shop?category=${product.category.slug}`} className="hover:text-ink">{product.category.name}</a> / <span className="text-ink">{product.title}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
@@ -86,10 +83,6 @@ export default async function ProductPage({ params }: Props) {
           <ProductGallery images={product.images} title={product.title} />
           <div className="mt-4 flex items-center justify-between">
             <span className="text-xs text-ink/40">Archival 300 GSM Print</span>
-            <RoomVisualizer
-              imageUrl={product.images[0]?.url || ''}
-              title={product.title}
-            />
           </div>
         </div>
 
@@ -114,11 +107,11 @@ export default async function ProductPage({ params }: Props) {
             <Accordion
               items={[
                 { title: 'Description', content: product.description },
-                { title: 'Materials', content: 'Archival-grade matte, glossy, or textured poster paper. Frames in black, white, or wood, laser-cut to size.' },
-                { title: 'Dimensions', content: 'Choose from A5 to A1 — exact millimetre dimensions are shown next to each size option above.' },
-                { title: 'Shipping', content: 'Dispatched within 24–48 hours. Delivery in 3–7 business days across India. Free shipping over ₹1,499.' },
-                { title: 'Returns', content: '7-day returns on unused, unopened prints. Custom posters are final sale.' },
-                { title: 'Care Instructions', content: 'Keep away from direct sunlight and moisture. Wipe frame gently with a dry cloth.' },
+                { title: 'Paper', content: 'Printed on archival-grade 300 GSM matte poster paper with pigment ink — colours stay true for decades, zero glare under room lighting.' },
+                { title: 'Dimensions', content: 'Choose from Polaroid, A6, A5, A4 or A3 — exact millimetre dimensions are shown next to each size option above.' },
+                { title: 'Shipping', content: 'Dispatched within 24–48 hours. Delivery in 3–7 business days across India. Free shipping on orders of ₹500 or more.' },
+                { title: 'Returns', content: '7-day returns on unused, unopened prints.' },
+                { title: 'Care Instructions', content: 'Keep away from direct sunlight and moisture. Wipe gently with a dry cloth.' },
               ]}
             />
           </div>

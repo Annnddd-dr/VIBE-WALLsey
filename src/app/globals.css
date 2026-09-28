@@ -3,15 +3,72 @@
 @tailwind utilities;
 
 :root {
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-display: 'Times New Roman', Georgia, serif;
   --font-sans: 'Inter', -apple-system, sans-serif;
+}
+
+/*
+ * VIBEWALLseyy design tokens — Light theme: GREEN SHADES
+ * bg #F6F9F3 · surface #FFFFFF · primary #14201A · secondary #5C6B60
+ * accent #3E7C4F · border #DCE7DB
+ */
+:root,
+.light {
+  --c-bg: 248 250 246;        /* softer, brighter paper */
+  --c-surface: 255 255 255;   /* #FFFFFF */
+  --c-primary: 18 25 30;       /* sharper text contrast */
+  --c-secondary: 74 88 84;    /* brighter supportive text */
+  --c-accent: 62 124 79;      /* #3E7C4F leaf green */
+  --c-border: 218 228 219;    /* pale but defined divider */
+  --c-glass: 255 255 255;     /* header glass tint */
+  --c-glass-opacity: 0.72;
+  --c-shadow: 20 32 26;
+}
+
+/*
+ * VIBEWALLseyy design tokens — Dark theme: CLEAR NIGHT SKY
+ * bg #05070D · surface #0B101A · primary #F7F7F7 · secondary #9DA4B2
+ * accent #FFFFFF · border #1B2230
+ */
+.dark {
+  --c-bg: 7 10 17;            /* slightly brighter night base */
+  --c-surface: 13 19 29;      /* #0B101A */
+  --c-primary: 247 248 250;   /* brighter text */
+  --c-secondary: 190 198 210; /* more readable muted text */
+  --c-accent: 255 255 255;    /* #FFFFFF */
+  --c-border: 34 41 54;       /* clearer separators */
+  --c-glass: 13 19 29;
+  --c-glass-opacity: 0.72;
+  --c-shadow: 0 0 0;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-paper text-ink antialiased; }
+  body {
+    @apply bg-paper text-ink antialiased;
+    transition: background-color 1.4s ease, color 1.4s ease;
+  }
   ::selection { @apply bg-ink text-paper; }
-  h1, h2, h3, h4 { @apply font-display tracking-tight; }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+    font-style: italic;
+  }
+  p, span, li, label, input, textarea, button, a {
+    color: inherit;
+  }
+
+  /* Theme cross-fade: colors glide instead of snapping */
+  .theme-fade,
+  .theme-fade * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 1200ms;
+    transition-timing-function: ease;
+  }
+  /* Keep motion-critical elements out of the long cross-fade */
+  .theme-fade .no-theme-fade,
+  .theme-fade .no-theme-fade * {
+    transition-duration: 200ms;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -23,13 +80,195 @@
   }
 }
 
+/*
+ * ADMIN — professional SaaS look (spec §34).
+ * Re-pins the semantic tokens to the sunrise palette inside the admin shell,
+ * so /admin stays light regardless of the visitor's theme choice, with a
+ * nearly static background.
+ */
+.admin-light {
+  --c-bg: 246 249 243;
+  --c-surface: 255 255 255;
+  --c-primary: 20 32 26;
+  --c-secondary: 92 107 96;
+  --c-accent: 62 124 79;
+  --c-border: 220 231 219;
+  --c-glass: 255 255 255;
+  --c-glass-opacity: 0.72;
+  --c-shadow: 20 32 26;
+}
+.admin-light .theme-fade *,
+.admin-light * {
+  transition-duration: 200ms;
+}
+
 @layer components {
   .eyebrow { @apply text-xs uppercase tracking-[0.2em] text-accent font-semibold; }
   .container-page { @apply max-w-content mx-auto px-5 sm:px-8 lg:px-12; }
   .btn { @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide transition-colors duration-200 rounded-sm disabled:opacity-50 disabled:pointer-events-none; }
-  .btn-primary { @apply bg-ink text-paper hover:bg-charcoal; }
-  .btn-accent { @apply bg-accent text-white hover:bg-accent/90; }
+  .btn-primary { @apply bg-ink text-paper hover:bg-ink/85; }
+  .btn-accent { @apply bg-accent text-ink hover:bg-accent/90; }
   .btn-ghost { @apply border border-ink/20 text-ink hover:border-ink; }
-  .input { @apply w-full border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:border-ink transition-colors rounded-sm; }
-  .card-line { @apply border border-line; }
+  .input {
+    @apply w-full border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-ink/40 focus:outline-none focus:border-ink transition-colors rounded-sm;
+  }
+  .card-line { @apply border border-line bg-surface; }
+  .admin-shell {
+    background:
+      radial-gradient(circle at top left, rgba(62, 124, 79, 0.2), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(12, 18, 27, 0.28), transparent 42%),
+      linear-gradient(135deg, rgba(247, 249, 244, 0.96), rgba(233, 242, 233, 0.88));
+    color: rgb(var(--c-primary));
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+  .admin-shell.dark-luxury {
+    background:
+      radial-gradient(circle at top left, rgba(98, 119, 255, 0.2), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.14), transparent 36%),
+      linear-gradient(135deg, rgba(9, 13, 22, 0.98), rgba(17, 24, 39, 0.98));
+    color: #f8fafc;
+    --c-bg: 9 13 22;
+    --c-surface: 15 23 42;
+    --c-primary: 255 255 255;
+    --c-secondary: 148 163 184;
+    --c-accent: 96 165 250;
+    --c-border: 30 41 59;
+    --c-glass: 15 23 42;
+    --c-glass-opacity: 0.72;
+    --c-shadow: 0 0 0;
+  }
+  .admin-sidebar {
+    background: rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.14), 0 0 40px rgba(0, 0, 0, 0.08);
+  }
+  .dark-luxury .admin-sidebar {
+    background: rgba(15, 23, 42, 0.68);
+    box-shadow: inset -1px 0 0 rgba(148, 163, 184, 0.14), 0 0 40px rgba(0, 0, 0, 0.28);
+  }
+  .admin-card {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .dark-luxury .admin-card {
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(148, 163, 184, 0.14);
+    box-shadow: 0 18px 45px rgba(2, 6, 23, 0.45);
+  }
+  .admin-hero {
+    position: relative;
+    overflow: hidden;
+  }
+  .admin-hero::after {
+    content: '';
+    position: absolute;
+    inset: -25% 10% auto auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(62, 124, 79, 0.35), transparent 68%);
+    filter: blur(16px);
+    animation: admin-float 7s ease-in-out infinite;
+  }
+  .admin-nav-link {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent);
+  }
+  .admin-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    opacity: 0.5;
+    animation: admin-float 9s ease-in-out infinite alternate;
+  }
+  .orb-1 {
+    top: -80px;
+    left: 10%;
+    width: 260px;
+    height: 260px;
+    background: rgba(62, 124, 79, 0.28);
+  }
+  .orb-2 {
+    right: 8%;
+    top: 12%;
+    width: 300px;
+    height: 300px;
+    background: rgba(59, 130, 246, 0.18);
+    animation-delay: 1.5s;
+  }
+  .orb-3 {
+    left: 36%;
+    bottom: 10%;
+    width: 220px;
+    height: 220px;
+    background: rgba(16, 185, 129, 0.18);
+    animation-delay: 3s;
+  }
+  /* Frosted glass surface (header, drawers, overlays).
+     Blur radius kept modest — backdrop-filter re-filters every frame while
+     the atmosphere animates beneath, so big radii cost real FPS. */
+  .glass {
+    background-color: rgb(var(--c-glass) / calc(var(--c-glass-opacity) + 0.12));
+    backdrop-filter: blur(10px) saturate(1.3);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  }
+  .glass-card {
+    @apply border border-line;
+    background-color: rgb(var(--c-glass) / 0.72);
+    backdrop-filter: blur(8px) saturate(1.2);
+    -webkit-backdrop-filter: blur(8px) saturate(1.2);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass,
+    .glass-card {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background-color: rgb(var(--c-surface));
+    }
+  }
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply rounded-sm;
+    background: linear-gradient(
+      90deg,
+      rgb(var(--c-border) / 0.4) 0%,
+      rgb(var(--c-border) / 0.9) 50%,
+      rgb(var(--c-border) / 0.4) 100%
+    );
+    background-size: 800px 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+}
+
+@keyframes admin-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(14px, -18px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-10px, 16px, 0) scale(0.98);
+  }
+}
+
+/*
+ * HalftoneBackground — the editorial print-screen aesthetic. The canvas
+ * component reads the theme tokens directly, so no CSS hooks are needed here.
+ */
+
+@layer utilities {
+  .text-ink-secondary { color: rgb(var(--c-secondary) / 1); }
+  .bg-checker {
+    background-image:
+      linear-gradient(45deg, rgb(var(--c-border) / 0.25) 25%, transparent 25%),
+      linear-gradient(-45deg, rgb(var(--c-border) / 0.25) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgb(var(--c-border) / 0.25) 75%),
+      linear-gradient(-45deg, transparent 75%, rgb(var(--c-border) / 0.25) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  }
 }
