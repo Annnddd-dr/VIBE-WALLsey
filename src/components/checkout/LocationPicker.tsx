@@ -22,7 +22,8 @@ export function LocationPicker({ onResolved, onClear }: Props) {
   const mapDivRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
-  const [open, setOpen] = useState(false);
+  // Map is visible by default on checkout — no hidden toggle required.
+  const [open, setOpen] = useState(true);
   const [mapsReady, setMapsReady] = useState(false);
   const [mapsError, setMapsError] = useState<string | null>(null);
   const [locating, setLocating] = useState(false);
@@ -176,7 +177,7 @@ export function LocationPicker({ onResolved, onClear }: Props) {
           {locating ? 'Finding you…' : 'Use my current location'}
         </button>
         <button type="button" onClick={() => setOpen((o) => !o)} className="text-xs text-ink/40 hover:text-ink underline">
-          {open ? 'Hide map' : 'Or pick on map'}
+          {open ? 'Hide map' : 'Show map'}
         </button>
         {label && !open && (
           <button type="button" onClick={() => { setLabel(null); setPos(null); onClear?.(); }} className="text-xs text-ink/40 hover:text-red-600 flex items-center gap-1">

@@ -38,6 +38,8 @@ export function DestinationMap({ destination }: Props) {
         if (cancelled || !divRef.current) return;
 
         const g = window as any;
+        // Raster map + classic Marker: no Map ID required, so this works with
+        // any key that has Maps JavaScript API enabled.
         const map = new g.google.maps.Map(divRef.current, {
           center: { lat: geo.lat, lng: geo.lng },
           zoom: 14,
@@ -45,16 +47,20 @@ export function DestinationMap({ destination }: Props) {
           streetViewControl: false,
           fullscreenControl: false,
           gestureHandling: 'cooperative',
-          mapId: 'VIBEWALL_TRACKING',
         });
-        const pin = document.createElement('div');
-        pin.innerHTML =
-          '<svg width="30" height="30" viewBox="0 0 24 24" fill="#3E7C4F" stroke="#14201A" stroke-width="1"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.6" fill="#14201A"/></svg>';
-        new g.google.maps.marker.AdvancedMarkerElement({
+        new g.google.maps.Marker({
           map,
           position: { lat: geo.lat, lng: geo.lng },
-          content: pin,
           title: 'Delivery destination',
+          icon: {
+            url:
+              'data:image/svg+xml;charset=UTF-8,' +
+              encodeURIComponent(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z" fill="#3E7C4F" stroke="#14201A" stroke-width="1"/><circle cx="12" cy="9" r="2.6" fill="#14201A"/></svg>'
+              ),
+            scaledSize: new g.google.maps.Size(30, 30),
+            anchor: new g.google.maps.Point(15, 28),
+          },
         });
         setState('ready');
       } catch (err: any) {

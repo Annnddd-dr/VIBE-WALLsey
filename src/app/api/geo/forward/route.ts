@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { googleForward, osmForward } from '@/lib/geocode';
 
 const cache = new Map<string, { at: number; data: unknown }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
@@ -18,14 +19,11 @@ function rateLimited(ip: string): boolean {
 /**
  * GET /api/geo/forward?q=600001
  * Forward geocoding (PIN code / area text → coordinates), used to center the
- * delivery map on the tracking page. Key stays server-side; cached 24h.
+ * delivery map on the tracking page. Tries the Google Geocoding API first
+ * (server-side key) and falls back to keyless OpenStreetMap so lookups keep
+ * working if the Geocoding API isn't activated on the key. Cached 24h.
  */
 export async function GET(req: NextRequest) {
-  const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  if (!key) {
-    return NextResponse.json({ error: 'Geocoding is not configured.' }, { status: 503 });
-  }
-
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local';
   if (rateLimited(ip)) {
     return NextResponse.json({ error: 'Too many lookups.' }, { status: 429 });
@@ -43,29 +41,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(q + ', India')}&region=in&key=${key}`;
-    const r = await fetch(url, { next: { revalidate: 86400 } });
-    const data = await r.json();
-
-    if (data.status === 'REQUEST_DENIED') {
-      console.error('[geo/forward] REQUEST_DENIED:', data.error_message ?? 'no message');
-      return NextResponse.json(
-        { error: 'Address lookup is unavailable — the Geocoding API must be enabled for the server key.' },
-        { status: 503 }
-      );
-    }
-    if (data.status !== 'OK' || !data.results?.length) {
+    const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    const result = (key ? await googleForward(q, key) : null) ?? (await osmForward(q));
+    if (!result) {
       return NextResponse.json({ error: 'Location not found.' }, { status: 404 });
     }
-
-    const first = data.results[0];
-    const payload = {
-      lat: first.geometry.location.lat,
-      lng: first.geometry.location.lng,
-      label: first.formatted_address,
-    };
-    cache.set(cacheKey, { at: Date.now(), data: payload });
-    return NextResponse.json(payload);
+    cache.set(cacheKey, { at: Date.now(), data: result });
+    return NextResponse.json(result);
   } catch (err) {
     console.error('[geo/forward] failed:', err);
     return NextResponse.json({ error: 'Lookup failed.' }, { status: 502 });

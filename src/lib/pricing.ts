@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma';
+import { getShippingRates } from '@/lib/store-settings';
 import { Coupon, CouponType } from '@prisma/client';
+import { computeDiscount } from '@/lib/pricing-math';
 
 /**
  * SERVER-SIDE AUTHORITATIVE PRICING
@@ -24,10 +26,9 @@ export interface PriceSummary {
   taxTotal: number;
   total: number;
   appliedCoupon: Coupon | null;
+  /** Free-shipping threshold in paise, resolved from admin settings. */
+  freeShippingThreshold: number;
 }
-
-const FREE_SHIPPING_THRESHOLD = Number(process.env.FREE_SHIPPING_THRESHOLD_INR ?? 500) * 100;
-const FLAT_SHIPPING_RATE = Number(process.env.FLAT_SHIPPING_RATE_INR ?? 99) * 100;
 
 export class PricingError extends Error {}
 
@@ -77,12 +78,27 @@ export async function priceCart(
     discountTotal = computeDiscount(appliedCoupon, subtotal);
   }
 
+  // Shipping config is admin-editable (DB-backed, env fallback) so changes in
+  // Admin -> Shipping apply to the storefront immediately.
+  const rates = await getShippingRates();
+  const freeThresholdPaise = rates.freeShippingThreshold * 100;
+  const flatRatePaise = rates.flatShippingRate * 100;
+
   const taxableAmount = subtotal - discountTotal;
-  const shippingTotal = taxableAmount >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_RATE;
+  const shippingTotal = taxableAmount >= freeThresholdPaise ? 0 : flatRatePaise;
   const taxTotal = 0;
   const total = subtotal - discountTotal + shippingTotal + taxTotal;
 
-  return { lines, subtotal, discountTotal, shippingTotal, taxTotal, total, appliedCoupon };
+  return {
+    lines,
+    subtotal,
+    discountTotal,
+    shippingTotal,
+    taxTotal,
+    total,
+    appliedCoupon,
+    freeShippingThreshold: freeThresholdPaise,
+  };
 }
 
 export async function validateCoupon(code: string, subtotal: number, userId?: string): Promise<Coupon> {
@@ -112,9 +128,3 @@ export async function validateCoupon(code: string, subtotal: number, userId?: st
   return coupon;
 }
 
-function computeDiscount(coupon: Coupon, subtotal: number): number {
-  if (coupon.type === CouponType.PERCENTAGE) {
-    return Math.floor((subtotal * coupon.value) / 100);
-  }
-  return Math.min(coupon.value, subtotal);
-}

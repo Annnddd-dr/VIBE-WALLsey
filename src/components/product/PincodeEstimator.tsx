@@ -107,7 +107,7 @@ export function PincodeEstimator() {
               <CheckCircle2 size={11} /> COD Available
             </span>
             <span>·</span>
-            <span>Free delivery on ₹500+</span>
+            <span>Free delivery on ₹{Math.round(result.freeShippingThreshold / 100)}+</span>
           </div>
         </div>
       )}

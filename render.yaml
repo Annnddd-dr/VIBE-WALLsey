@@ -1,0 +1,73 @@
+services:
+  - type: web
+    name: posterraxx
+    runtime: node
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy && npm run build
+    startCommand: npm start
+
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+
+      - key: NEXTAUTH_URL
+        sync: false
+
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+      - key: RAZORPAY_KEY_ID
+        sync: false
+
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+
+      - key: NEXT_PUBLIC_RAZORPAY_KEY_ID
+        sync: false
+
+      - key: RESEND_API_KEY
+        sync: false
+
+      - key: EMAIL_FROM
+        sync: false
+
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+
+      - key: CLOUDINARY_API_KEY
+        sync: false
+
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+      - key: SHIPPING_API_KEY
+        sync: false
+
+      - key: SHIPPING_API_BASE
+        sync: false
+
+      - key: NEXT_PUBLIC_SITE_URL
+        sync: false
+
+      - key: FREE_SHIPPING_THRESHOLD_INR
+        sync: false
+
+      - key: FLAT_SHIPPING_RATE_INR
+        sync: false
+
+      - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        sync: false
+
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
+
+      - key: NEON_BRANCH
+        sync: false

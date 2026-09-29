@@ -30,8 +30,32 @@ export function AdminShippingClient({ shipments, unshipped, freeThreshold, flatR
   const [editFlatRate, setEditFlatRate] = useState(flatRate);
   const { show } = useToast();
 
+  const [saving, setSaving] = useState(false);
+
   async function handleSaveRates() {
-    show('Shipping rates saved successfully.', 'success');
+    setSaving(true);
+    try {
+      const res = await fetch('/api/admin/shipping/rates', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          freeShippingThreshold: Math.max(0, Math.round(editFreeThreshold)),
+          flatShippingRate: Math.max(0, Math.round(editFlatRate)),
+        }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        show(json.error || 'Could not save shipping rates.', 'error');
+        return;
+      }
+      setEditFreeThreshold(json.freeShippingThreshold);
+      setEditFlatRate(json.flatShippingRate);
+      show('Shipping rates saved — live on the storefront.', 'success');
+    } catch {
+      show('Network error — could not save rates.', 'error');
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function copyTracking(tracking: string) {
@@ -68,7 +92,7 @@ export function AdminShippingClient({ shipments, unshipped, freeThreshold, flatR
               />
             </div>
             <p className="text-[11px] text-ink/40 mt-2">
-              Updates will override environment variables.
+              Applies site-wide immediately.
             </p>
           </div>
           <div className="border border-line rounded-sm p-5 bg-surface/50 focus-within:border-ink/30 transition-colors">
@@ -85,13 +109,17 @@ export function AdminShippingClient({ shipments, unshipped, freeThreshold, flatR
               />
             </div>
             <p className="text-[11px] text-ink/40 mt-2">
-              Updates will override environment variables.
+              Applies site-wide immediately.
             </p>
           </div>
         </div>
         <div className="flex justify-end">
-          <button onClick={handleSaveRates} className="btn btn-primary text-xs py-2 px-6 rounded-sm">
-            Save Rates
+          <button
+            onClick={handleSaveRates}
+            disabled={saving}
+            className="btn btn-primary text-xs py-2 px-6 rounded-sm disabled:opacity-50"
+          >
+            {saving ? 'Saving…' : 'Save Rates'}
           </button>
         </div>
       </div>

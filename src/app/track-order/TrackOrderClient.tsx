@@ -41,8 +41,8 @@ function fmtDateTime(d: string) {
   }
 }
 
-export function TrackOrderClient() {
-  const [orderNumber, setOrderNumber] = useState('');
+export function TrackOrderClient({ prefillOrder }: { prefillOrder?: string }) {
+  const [orderNumber, setOrderNumber] = useState(prefillOrder ?? '');
   const [contact, setContact] = useState('');
   const [result, setResult] = useState<TrackResult | null>(null);
   const [loading, setLoading] = useState(false);

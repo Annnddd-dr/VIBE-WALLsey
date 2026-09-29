@@ -11,6 +11,7 @@ import { useWishlist } from '@/components/product/WishlistContext';
 
 const LINKS = [
   { href: '/shop', label: 'SHOP' },
+  { href: '/custom-design', label: 'CUSTOM PRINT' },
   { href: '/track-order', label: 'TRACK ORDER' },
 ];
 

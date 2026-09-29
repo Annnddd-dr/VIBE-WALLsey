@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { getShippingRates } from '@/lib/store-settings';
 import { AdminShippingClient } from './AdminShippingClient';
 
 export const metadata = { title: 'Shipping — VIBEWALLseyy Admin' };
@@ -22,6 +23,8 @@ export default async function AdminShippingPage() {
     }),
   ]);
 
+  const rates = await getShippingRates();
+
   return (
     <AdminShippingClient
       shipments={shipments.map((s) => ({
@@ -40,8 +43,8 @@ export default async function AdminShippingPage() {
         orderNumber: o.orderNumber,
         status: o.status,
       }))}
-      freeThreshold={Number(process.env.FREE_SHIPPING_THRESHOLD_INR ?? 500)}
-      flatRate={Number(process.env.FLAT_SHIPPING_RATE_INR ?? 99)}
+      freeThreshold={rates.freeShippingThreshold}
+      flatRate={rates.flatShippingRate}
     />
   );
 }

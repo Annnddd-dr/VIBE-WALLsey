@@ -11,7 +11,7 @@ export default function OrderConfirmedPage({ searchParams }: { searchParams: { o
   We&apos;re preparing your print. A confirmation email is on its way.
 </p>
       <div className="flex gap-4 mt-8">
-        <Link href="/account/orders" className="btn btn-primary">Track order</Link>
+        <Link href={searchParams.order ? `/track-order?order=${encodeURIComponent(searchParams.order)}` : '/track-order'} className="btn btn-primary">Track order</Link>
         <Link href="/shop" className="btn btn-ghost">Continue shopping</Link>
       </div>
     </div>

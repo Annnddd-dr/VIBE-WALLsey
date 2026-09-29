@@ -237,6 +237,16 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
           <div className="space-y-2 text-xs text-ink/70">
             <div className="flex justify-between">
+              <span>Method</span>
+              <span className="font-medium text-ink">
+                {order.payment?.method
+                  ? `Online · ${order.payment.method.toUpperCase()}`
+                  : order.razorpayOrderId
+                  ? 'Online (Razorpay)'
+                  : 'Cash on Delivery'}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span>Subtotal</span>
               <span className="font-medium text-ink">{formatINR(order.subtotal)}</span>
             </div>

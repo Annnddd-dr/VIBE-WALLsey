@@ -5,6 +5,7 @@ const COLUMNS = [
     title: 'Shop',
     links: [
       { href: '/shop', label: 'All Posters' },
+      { href: '/custom-design', label: 'Custom Print' },
       { href: '/shop?sort=bestselling', label: 'People Are Loving' },
       { href: '/shop?sort=newest', label: 'Latest Prints' },
     ],

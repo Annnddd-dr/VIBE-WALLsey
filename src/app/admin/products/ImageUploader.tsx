@@ -128,7 +128,7 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/*"
           multiple
           className="hidden"
           onChange={(e) => {
@@ -146,7 +146,7 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
             </>
           )}
         </p>
-        <p className="text-xs text-ink/30 mt-1">JPEG, PNG, WebP — max 5 MB each</p>
+        <p className="text-xs text-ink/30 mt-1">Any image type (JPEG, PNG, WebP, GIF, AVIF, …) — max 100 MB each</p>
       </div>
 
       {/* Error */}

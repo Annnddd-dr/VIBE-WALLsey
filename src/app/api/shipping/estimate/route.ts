@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'PIN code is required.' }, { status: 400 });
   }
 
-  const result = estimateShippingForPincode(pincode);
+  const result = await estimateShippingForPincode(pincode);
   if (!result) {
     return NextResponse.json(
       { error: 'Please enter a valid 6-digit Indian PIN code.' },

@@ -35,4 +35,6 @@ export interface CartSummaryDTO {
   taxTotal: number;
   total: number;
   appliedCoupon: { code: string } | null;
+  /** Free-shipping threshold in paise, from admin settings. */
+  freeShippingThreshold: number;
 }

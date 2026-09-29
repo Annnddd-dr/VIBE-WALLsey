@@ -1,4 +1,5 @@
 import { addBusinessDays, format } from 'date-fns';
+import { getShippingRates } from '@/lib/store-settings';
 
 export interface ShippingEstimateResult {
   pincode: string;
@@ -46,7 +47,7 @@ const PIN_PREFIX_MAP: Record<string, { state: string; city: string; zone: 'METRO
   '69': { state: 'Kerala', city: 'Trivandrum', zone: 'TIER_1' },
 };
 
-export function estimateShippingForPincode(pincode: string): ShippingEstimateResult | null {
+export async function estimateShippingForPincode(pincode: string): Promise<ShippingEstimateResult | null> {
   const cleanPin = pincode.trim();
   if (!/^[1-9][0-9]{5}$/.test(cleanPin)) {
     return null;
@@ -87,6 +88,6 @@ export function estimateShippingForPincode(pincode: string): ShippingEstimateRes
     deliveryRange,
     codAvailable: true,
     courier: location.zone === 'METRO' ? 'BlueDart Express Air' : 'Delhivery Surface Premium',
-    freeShippingThreshold: 50000, // ₹500 in paise
+    freeShippingThreshold: (await getShippingRates()).freeShippingThreshold * 100,
   };
 }

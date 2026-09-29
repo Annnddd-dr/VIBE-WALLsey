@@ -9,6 +9,7 @@ import { Accordion } from '@/components/product/Accordion';
 import { Rating } from '@/components/ui/Rating';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { PRODUCT_CARD_INCLUDE, toCardData } from '@/lib/catalog';
+import { getShippingRates } from '@/lib/store-settings';
 import { ReviewForm } from '@/components/product/ReviewForm';
 import { PincodeEstimator } from '@/components/product/PincodeEstimator';
 
@@ -39,6 +40,8 @@ export default async function ProductPage({ params }: Props) {
   });
 
   if (!product) notFound();
+
+  const shippingRates = await getShippingRates();
 
   const related = await prisma.product.findMany({
     where: { categoryId: product.categoryId, id: { not: product.id }, status: 'ACTIVE' },
@@ -109,7 +112,7 @@ export default async function ProductPage({ params }: Props) {
                 { title: 'Description', content: product.description },
                 { title: 'Paper', content: 'Printed on archival-grade 300 GSM matte poster paper with pigment ink — colours stay true for decades, zero glare under room lighting.' },
                 { title: 'Dimensions', content: 'Choose from Polaroid, A6, A5, A4 or A3 — exact millimetre dimensions are shown next to each size option above.' },
-                { title: 'Shipping', content: 'Dispatched within 24–48 hours. Delivery in 3–7 business days across India. Free shipping on orders of ₹500 or more.' },
+                { title: 'Shipping', content: `Dispatched within 24–48 hours. Delivery in 3–7 business days across India. Free shipping on orders of ₹${Math.round(shippingRates.freeShippingThreshold)} or more.` },
                 { title: 'Returns', content: '7-day returns on unused, unopened prints.' },
                 { title: 'Care Instructions', content: 'Keep away from direct sunlight and moisture. Wipe gently with a dry cloth.' },
               ]}

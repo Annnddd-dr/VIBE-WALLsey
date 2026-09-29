@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 enum Role {
@@ -36,6 +37,7 @@ model User {
   reviews       Review[]
   couponUsages  CouponUsage[]
   notifications Notification[]
+  customDesignRequests CustomDesignRequest[]
 
   @@index([email])
 }
@@ -89,7 +91,7 @@ model PhoneOtp {
 
 model Address {
   id         String   @id @default(cuid())
-  userId     String
+  userId     String?
   name       String
   phone      String
   line1      String
@@ -100,7 +102,7 @@ model Address {
   isDefault  Boolean  @default(false)
   createdAt  DateTime @default(now())
 
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   orders Order[]
 
   @@index([userId])
@@ -439,6 +441,14 @@ model Review {
   @@index([status])
 }
 
+/// Key-value store for admin-editable site configuration.
+/// Values here override the environment defaults (e.g. shipping rates).
+model StoreSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 model Notification {
   id        String    @id @default(cuid())
   userId    String?
@@ -452,4 +462,57 @@ model Notification {
   user User? @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+enum CustomDesignStatus {
+  NEW
+  REVIEWING
+  QUOTED
+  ACCEPTED
+  REJECTED
+}
+
+model CustomDesignRequest {
+  id            String             @id @default(cuid())
+  userId        String?
+  name          String
+  email         String
+  phone         String
+  artworkUrl    String             @db.Text
+  size          PosterSize
+  quantity      Int                @default(1)
+  notes         String?            @db.Text
+  estimatedCost Int
+  status        CustomDesignStatus @default(NEW)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([email])
+}
+
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorEmail String
+  action     String
+  targetType String
+  targetId   String?
+  ipAddress  String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([targetType, targetId])
+}
+
+model RateLimitEntry {
+  key       String   @id
+  count     Int      @default(0)
+  resetAt   DateTime
+  updatedAt DateTime @updatedAt
+
+  @@index([resetAt])
 }

@@ -124,7 +124,7 @@ function CartDrawerContent() {
                 <div className="border-t border-line px-6 py-5 space-y-2">
                   {summary && summary.shippingTotal > 0 && (
                     <p className="text-xs text-ink/60 bg-line/40 rounded-sm px-3 py-2">
-                      Add {formatINR(Math.max(0, 50000 - summary.subtotal))} more for free shipping.
+                      Add {formatINR(Math.max(0, (summary.freeShippingThreshold ?? 50000) - summary.subtotal))} more for free shipping.
                     </p>
                   )}
                   <div className="flex justify-between text-sm">

@@ -76,21 +76,24 @@ export async function PUT(req: NextRequest) {
   const { token, password } = parsed.data;
 
   try {
-    // Find token
-    const verificationToken = await prisma.verificationToken.findFirst({
+    // Multiple resets can be pending at once (different users); find the one
+    // whose stored hash matches the presented token.
+    const candidates = await prisma.verificationToken.findMany({
       where: {
         identifier: { startsWith: 'reset-' },
         expires: { gt: new Date() },
       },
     });
 
-    if (!verificationToken) {
-      return NextResponse.json({ error: 'Invalid or expired reset link.' }, { status: 400 });
+    let verificationToken: typeof candidates[number] | null = null;
+    for (const candidate of candidates) {
+      if (await bcrypt.compare(token, candidate.token)) {
+        verificationToken = candidate;
+        break;
+      }
     }
 
-    // Verify token
-    const isValid = await bcrypt.compare(token, verificationToken.token);
-    if (!isValid) {
+    if (!verificationToken) {
       return NextResponse.json({ error: 'Invalid or expired reset link.' }, { status: 400 });
     }
 

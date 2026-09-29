@@ -3,8 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions, hasRole } from '@/lib/auth';
 import { uploadImage } from '@/lib/cloudinary';
 
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
-const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_SIZE = 100 * 1024 * 1024; // 100 MB
 
 export async function POST(req: NextRequest) {
   // --- Auth gate ---
@@ -22,16 +21,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No file provided.' }, { status: 400 });
     }
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
+    if (!file.type.startsWith('image/')) {
       return NextResponse.json(
-        { error: `Unsupported file type: ${file.type}. Use JPEG, PNG, or WebP.` },
+        { error: `Unsupported file type: ${file.type || 'unknown'}. Images only (JPEG, PNG, WebP, GIF, AVIF, …).` },
         { status: 400 }
       );
     }
 
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
-        { error: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 5 MB.` },
+        { error: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 100 MB.` },
         { status: 400 }
       );
     }

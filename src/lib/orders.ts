@@ -36,9 +36,15 @@ export async function createPendingOrder(params: {
     userId: params.userId ?? undefined,
   });
 
-  const address = params.userId
-    ? await prisma.address.create({ data: { ...params.address, userId: params.userId } })
-    : null;
+  // Always snapshot the shipping address as its own Address row. For logged-in
+  // users it links to their address book; for guests it stands alone so order
+  // tracking, invoices and the admin order page still show the full address.
+  const address = await prisma.address.create({
+    data: {
+      ...params.address,
+      ...(params.userId ? { userId: params.userId } : {}),
+    },
+  });
 
   const order = await prisma.order.create({
     data: {

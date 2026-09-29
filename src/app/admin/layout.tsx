@@ -26,6 +26,7 @@ const NAV = [
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
+  { href: '/admin/custom-design', label: 'Custom Requests', icon: Sparkles },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/reviews', label: 'Reviews', icon: Star },
   { href: '/admin/shipping', label: 'Shipping', icon: Truck },

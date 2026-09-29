@@ -39,8 +39,8 @@ const GROUPS = [
     title: 'Shipping',
     icon: Truck,
     items: [
-      { key: 'FREE_SHIPPING_THRESHOLD_INR', desc: 'Cart value above which shipping is free.', set: !!process.env.FREE_SHIPPING_THRESHOLD_INR },
-      { key: 'FLAT_SHIPPING_RATE_INR', desc: 'Flat fee below the free-shipping threshold.', set: !!process.env.FLAT_SHIPPING_RATE_INR },
+      { key: 'Free shipping threshold', desc: 'Editable live in Admin → Shipping. Falls back to FREE_SHIPPING_THRESHOLD_INR if never saved.', set: true },
+      { key: 'Flat shipping rate', desc: 'Editable live in Admin → Shipping. Falls back to FLAT_SHIPPING_RATE_INR if never saved.', set: true },
     ],
   },
 ];

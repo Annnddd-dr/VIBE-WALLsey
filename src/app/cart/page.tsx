@@ -85,7 +85,9 @@ export default function CartPage() {
             </div>
           </div>
           <Link href="/checkout" className="btn btn-accent w-full mt-6">Go to checkout</Link>
-          <p className="text-xs text-ink/40 mt-3">Free shipping on orders above ₹500.</p>
+          <p className="text-xs text-ink/40 mt-3">
+            Free shipping on orders above ₹{Math.round((summary?.freeShippingThreshold ?? 50000) / 100)}.
+          </p>
         </div>
       </div>
     </div>
